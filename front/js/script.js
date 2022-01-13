@@ -4,6 +4,7 @@ let products;
 const fetchProducts = async() => {
     products = await fetch(
         'http://localhost:3000/api/products/').then(res =>res.json());
+        console.log(products)
     
         
 };
@@ -22,10 +23,10 @@ items.innerHTML = (
         <img src="${product.imageUrl}" />
         <h3 class="productName">${product.name}</h3>
         <p class="productDescription">${product.description}</p>
-         </article>  
+        </article>  
 
         `
-    )).join('')
+    ))
 );
 };
 showProducts();
