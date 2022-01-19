@@ -1,5 +1,7 @@
 let productsData = [];
 
+//api request
+
 const fetchProducts = async () => { 
 await fetch("http://localhost:3000/api/products/")
 .then((res) => res.json())
@@ -7,7 +9,7 @@ await fetch("http://localhost:3000/api/products/")
     
     console.log(productsData);
 };
-
+//fonction affichage des produits
 const productsDisplay = async () => {    
     await fetchProducts();
 
@@ -17,7 +19,7 @@ const productsDisplay = async () => {
             (product) =>
             `
             
-            <a href="./product.html?id=42"${product._id}>
+            <a href="front/html/product.html?id=${product._id}">
             <article class="card">
             <img src="${product.imageUrl}" />
             <h3 class="productName">${product.name}</h3>
@@ -25,12 +27,7 @@ const productsDisplay = async () => {
             </article> 
             </a>
             
-
-            
-            
             `
-
-
         )
         .join('');
 

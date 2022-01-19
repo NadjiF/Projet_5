@@ -1,18 +1,10 @@
-//Url pour chaque produit(fonction)
-const getProductId = () => {
-    return new URL(location.href).searchParams.get('id')
-};
+const getProduct = async () => {
+  return fetch("http://localhost:3000/api/products")
+    .then((res) => res.json())
+    .then((data) => getOneProduct = data);
 
-//donnée du tableau et comportements
-const getProduct = (getProductId) => {
-    return fetch(`http://localhost:3000/api/products/${productId}`)
-    .then(function(response) {
-        return response.json()
-    })
-    .then(function(products) {
-        return products
-    })
-    .catch (function(err) {
-        alert(err)
-    })
-}
+};
+console.log(getProduct)
+let imgProduct = "imgUrl";
+
+console.log(imgProduct);
