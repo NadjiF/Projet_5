@@ -26,9 +26,9 @@ function displayProduct(product) {
   titlePage.innerHTML = "Kanap -  " + product.name;
   
   
-  let images = document.querySelector('.item__img');  
-  images.src = product.imageUrl;
-  images.alt = product.altText; 
+  let image = document.querySelector('.item__img');  
+  image.src = product.imageUrl;
+  image.alt = product.altText; 
   
   document.getElementById("title").textContent = product.name;
 
