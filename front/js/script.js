@@ -34,3 +34,5 @@ const productsDisplay = async () => {
 
 };
 productsDisplay();
+
+ 

@@ -7,8 +7,7 @@ async function fetchById() {
     const productId = urlParams.get("id"); //recuperer id
 
     const response = await fetch(
-      `http://localhost:3000/api/products/${productId}`
-    );
+      `http://localhost:3000/api/products/${productId}`);
     const idProduct = await response.json();
     return idProduct;
   } catch (error) {
@@ -16,7 +15,7 @@ async function fetchById() {
   }
 }
 //displayproduct
-fetchById().then((idProduct) => {
+fetchById().then(idProduct => {
   idProduct;
   displayProduct(idProduct);
 });
@@ -25,13 +24,12 @@ function displayProduct(idProduct) {
   
   let titlePage = document.querySelector("title");
   titlePage.innerHTML = "Kanap -  " + idProduct.name;
-  let imgProd = document.querySelector(".item__img img");
-  imgProd = idProduct.imageUrl;
-  imgProd = idProduct.altTxt;
+  
+  let image = document.querySelector(".imageUrl");
+  image.src = idProduct.imageUrl;
 
   document.getElementById("title").textContent = idProduct.name;
   document.getElementById("price").textContent = idProduct.price;
   document.getElementById("description").textContent = idProduct.description;
- console.log(idProduct);
+  
 }
-
