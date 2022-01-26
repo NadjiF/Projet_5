@@ -22,11 +22,11 @@ fetchById().then(product => {
 //afficher les caractérisqtiques du produit dans le dom
 function displayProduct(product) {
   
-  let titlePage = document.querySelector("title");
+  let titlePage = document.querySelector("title");         //nom de la page selon le produit
   titlePage.innerHTML = "Kanap -  " + product.name;
   
   
-  let image = document.querySelector('.item__img img');  
+  let image = document.querySelector('.item__img img');  // ajout du html de manière dynamique
   image.src = product.imageUrl;
   image.alt = product.altText; 
   
@@ -36,7 +36,7 @@ function displayProduct(product) {
 
   document.getElementById("description").textContent = product.description;
   
-  const selectElt = document.querySelector('select');
+  const selectElt = document.querySelector('select');      // ajout de la selection des couleurs
     let optionElt;
     for (color of product.colors) {
         optionElt = document.createElement('option');
@@ -44,7 +44,7 @@ function displayProduct(product) {
         optionElt.textContent = color;
         selectElt.appendChild(optionElt);
     }
-}
+
 
 ///////
 
@@ -53,16 +53,52 @@ const sendToCart = document.getElementById('addToCart');
 sendToCart.addEventListener('click',(event) => {
   event.preventDefault();
 
-const itemCart = {
+const userCart = {
 
-  id: product._id,
+  id: product.id,
   name: product.name,
   quantity: quantity.value,
   color: document.getElementById('colors').value,
   price: product.price, 
   img: product.imageUrl,
   alt: product.altTxt,
-  }
-  console.log(itemCart);
-})
+  
+}
 
+
+let localItems = JSON.parse(localStorage.getItem('itemToCart'));
+
+console.log(localItems);
+
+if(localItems) {
+
+  let newQuantity = parseInt(userCart.quantity);
+
+  for(i = 0; i < localItems.length; i++) {                                                
+      
+      if(localItems[i].id == userCart.id && localItems[i].color == userCart.color) {     
+          newQuantity += parseInt(localItems[i].quantity);                                                                
+          localItems.splice(i,1);                                                                                         
+      }
+      
+  }
+  if (newQuantity > 0) {
+    localItems.push(userCart);
+            }
+            localStorage.setItem('itemToCart', JSON.stringify(localItems));
+
+            console.log(localItems);
+            alert ('Votre produit a bien été ajouté au panier.');
+          }else {
+            localItems = [];
+
+            // Stockage du tableau dans le localStorage.
+
+            localItems.push(userCart);
+            localStorage.setItem('itemToCart', JSON.stringify(localItems))
+
+            console.log(localItems);
+            alert ('Votre produit a bien été ajouté au panier.');
+        } 
+      });
+}
