@@ -53,7 +53,7 @@ const sendToCart = document.getElementById('addToCart');
 sendToCart.addEventListener('click',(event) => {
   event.preventDefault();
 
-const userCart = {
+const itemCart = {
 
   id: product.id,
   name: product.name,
@@ -72,18 +72,18 @@ console.log(localItems);
 
 if(localItems) {
 
-  let newQuantity = parseInt(userCart.quantity);
+  let newQuantity = parseInt(itemCart.quantity);
 
   for(i = 0; i < localItems.length; i++) {                                                
       
-      if(localItems[i].id == userCart.id && localItems[i].color == userCart.color) {     
+      if(localItems[i].id == itemCart.id && localItems[i].color == itemCart.color) {     
           newQuantity += parseInt(localItems[i].quantity);                                                                
           localItems.splice(i,1);                                                                                         
       }
       
   }
   if (newQuantity > 0) {
-    localItems.push(userCart);
+    localItems.push(itemCart);
             }
             localStorage.setItem('itemToCart', JSON.stringify(localItems));
 
@@ -94,7 +94,7 @@ if(localItems) {
 
             // Stockage du tableau dans le localStorage.
 
-            localItems.push(userCart);
+            localItems.push(itemCart);
             localStorage.setItem('itemToCart', JSON.stringify(localItems))
 
             console.log(localItems);
