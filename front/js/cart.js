@@ -37,7 +37,7 @@ function addArticle() {
         img.classList.add("cart__item__img");
         itemContent.classList.add("cart__item__content");
         contentDescription.classList.add("cart__item__description");
-        nameProduct.classList.add("cart__item__settings");
+        contentSetting.classList.add("cart__item__settings");
         quantityProduct.classList.add("cart__item__content__settings__quantity");
         itemInput.classList.add("itemQuantity");
         itemInput.setAttribute("type","number");
