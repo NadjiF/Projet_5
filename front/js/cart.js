@@ -1,200 +1,68 @@
-// array products
-let products = [];
-console.log(products);
-//total price
-const totalPrice = [];
-//
-let cartItems = JSON.parse(localStorage.getItem ("#cart__items"));
 
-function cartStorage() {
-    
-      if (cartItems == null) {
-          console.log("le panier est vide");
-          let vide = document.querySelector("#vide");
-          vide.style.display = "none";
-          
-          //
-          let emptyPanier = document.querySelector(".panier_vide")
-          let i = document.createElement("i");
-          i.className = "itex fas fa-shopping-basket";
-          emptyPanier.appendChild(i);
-          console.log(i);
+//récupération des élements panier
 
-          //
-          let textPanier = document.createElement("p");
-          textPanier.textContent = "Le panier est vide";
-          textPanier.className = "texte";
-          i.appendChild(textPanier);
-        
-      } else {
-          for (i =0; i < cartItems.length; i++) {
-              cartDisplay(cartItems);
-              cartPrice(cartItems);
-              products.push(cartItems[i].idProduit);
-          }
-        
-      }
-    }
-    cartStorage();
+let localItems = JSON.parse(localStorage.getItem('itemToCart'));
 
+console.log(localItems);
 
-    function cartDisplay(cartItems) {  
-        let basket = document.querySelector(".panier_body");
-    
-        var tr = document.createElement("tr");
-        tr.className = "contenu_panier form-row";
-        basket.appendChild(tr);
-    
-        let row1 = document.createElement("td");
-        row1.className = "col-4";
-        tr.appendChild(row1);
-    
-        var img = document.createElement("img");
-        img.className = "image_panier";
-        img.src = cartItems[i].imageProduit;
-        img.alt = "appareil photo vintage";
-        row1.appendChild(img);
-    
-        let row2 = document.createElement("td");
-        row2.className = "name col-2";
-        row2.textContent = cartItems[i].nomProduit;
-        tr.appendChild(row2);
-       
-        let row3 = document.createElement("td");
-        row3.className = "lense col-2";
-        row3.textContent = cartItems[i].optionProduit;
-        tr.appendChild(row3);
-    
-        let row4 = document.createElement("td");
-        row4.className = "quantity col-2";
-        row4.textContent = cartItems[i].quantité;
-        tr.appendChild(row4);
-    
-        let row5 = document.createElement("td");
-        row5.className = "price col-2";
-        row5.textContent = cartItems[i].prix + "€";
-        tr.appendChild(row5); 
-    }    
+//Fonction affichage des caractéristiques de l'article (produit)
 
-    ////
-    function cartPrice(cartItems) {
-        let priceCanap = cartItems[i].prix;
-        totalPrice.push(priceCanap);
-    
-        const reducer = (accumulator, currentValue) => accumulator + currentValue;
-        const prixTotal = totalPrice.reduce(reducer);
-    
-        //stockage du prix total pour la page confirmation
-        localStorage.setItem("prixTotal", JSON.stringify(prixTotal));
-       
-        let total = document.querySelector(".total")
-        total.textContent = prixTotal + "€";
-    }
-    /////
+function addArticle() {
 
-    function viderPanier() {
-        const vider = document.querySelector(".cart_button_clear");
-        vider.addEventListener('click', (e)=>{
-            e.preventDefault;
-    
-            //méthode removeItem pour vider le localStorage
-            localStorage.removeItem("element");
-            localStorage.removeItem("contact");
-            localStorage.removeItem("prixTotal")
-    
-            //recharge de la page html
-            window.location.href = "panier.html";
-        })
-    }
+    for(j = 0; j < localItems.length; j++) {   //création de boucle(i déjà utilisé dans page product)       
+        const itemsBalise = document.getElementById("cart__items");
+        //ajout des balises pour les caractéristiques du produit
+        const article = document.createElement("article");
+        const divImg = document.createElement("div");
+        const img = document.createElement("img");
+        const itemContent = document.createElement("div");
+        const contentDescription = document.createElement("div");
+        const nameProduct = document.createElement("h2");
+        const colorProduct = document.createElement("p");
+        const priceProduct = document.createElement("p");
+        const contentSetting = document.createElement("div");
+        const quantityProduct = document.createElement("div");
+        const pQuantity = document.createElement("p");
+        const itemInput = document.createElement("input");
+        const settingDelete = document.createElement("div");
+        const deleteItem = document.createElement("p")
 
-    ////
+        // ajout des attributs et classes des balises (HTML CART)
 
-    function DataContact () {
-        let lastName = document.querySelector("#lastName").value;
-        let firstName = document.querySelector("#firstName").value;
-        let address = document.querySelector("#address").value;
-        let city = document.querySelector("#city").value;
-        let email = document.querySelector("#email").value;
-        contact = new infoClients(lastName, firstName, address, city, email);
-    };
-    DataContact();
+        article.classList.add("cart__item");
+        divImg.setAttribute("data-id", `${localItems[j].id}`);
+        img.classList.add("cart__item__img");
+        itemContent.classList.add("cart__item__content");
+        contentDescription.classList.add("cart__item__description");
+        nameProduct.classList.add("cart__item__settings");
+        quantityProduct.classList.add("cart__item__content__settings__quantity");
+        itemInput.classList.add("itemQuantity");
+        itemInput.setAttribute("type","number");
+        itemInput.setAttribute("name","itemQuantity");
+        itemInput.setAttribute("min","1");
+        itemInput.setAttribute("value",localItems[j].quantity);
+        settingDelete.classList.add("cart__item__content__settings__delete");
+        deleteItem.classList.add("deleteItem");
 
-    /////
+        //Données stockées dans les balises(statiques et dynamiques)
+        //Ajout de l'affichage du prix selon le produit(type)
 
-    function validateForm() {
-        var form = document.querySelector("#formulaire");
-        lastName = form.lastName.value;
-        firstName = form.firstName.value;
-        address = form.address.value;
-        city = form.city.value;
-        email = form.email.value;
-    
-        if (/[A-Za-z-]{2,}/.test(lastName) &&
-         /[A-Za-z-]{2,}/.test(firstName) &&
-         /[a-zA-Z0-9]{2,}/.test(address) &&
-         /[A-Za-z-]{2,}/.test(city) && 
-         /[a-z 0-9._-]+@[a-z 0-9.-]{2,}[.][a-z]{2,3}/.test(email)) {
-            DataContact();
-            alert("Valide");
-            return true;
-        }else{
-            alert("Invalide");
-            return false;
-        }
-    }
+        article.appendChild(divImg) + article.appendChild(itemContent);
+        divImg.appendChild(img);
+        divImg.querySelector("img").src = localItems[j].img;
+        divImg.querySelector("img").alt = localItems[j].alt;
+        itemContent.appendChild(contentDescription) + itemContent.appendChild(nameProduct);
+        quantityProduct.appendChild(itemInput);
+        quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemInput);
+        quantityProduct.appendChild('p').textContent = 'quantité : ';
+        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
+        contentDescription.querySelector('h2').textContent = localItems[j].name + "-" + localItems[j].color;
+        let totalPriceUni = localItems[j].quantity*localItems[j].price;
+        contentDescription.querySelector('p').textContent = 'montant total produit : ' + totalPriceUni + ' € ' + ' - ' + '(Montant unitaire : ' + localItems[j].price + ' € )' ;
+        settingDelete.appendChild(deleteItem)
+        deleteItem.textContent = 'supprimer';
 
-    ////
-
-    function dataButton() {
-        //bouton envoyer formulaire 
-        const bouton = document.querySelector(".btn-primary");
-    
-        bouton.addEventListener('click', (e) => {
-            e.preventDefault();
-    
-            //Vérification des données 
-            validateForm();
-    
-            //Mettre objet dans le localStorage
-            localStorage.setItem("contact", JSON.stringify(contact));
-            
-            //Mettre valeurs à envoyer sur le serveur 
-                const update = {
-                contact,
-                products,
-            }
-    
-            pushData = async () => {
-                const location = window.location.hostname;
-                //elements de la methode post
-                const options = {
-                    method: "POST",
-                    headers: {
-                    "Content-Type" : "application/json",
-                    },
-                    body: JSON.stringify(update),
-                }; 
-                try {
-                    const res = await fetch("http://localhost:3000/api/produits/order", options);
-                    if (res.ok) {
-                        let value = await res.json();
-                        //Récupération de l'orderId 
-                        const orderId = value.orderId;
-                        localStorage.setItem("orderId", JSON.stringify(orderId));
-                        console.log("données bien envoyées");
-                        window.location.href = "confirmation.html";
-                    } else { 
-                        console.error(err)
-                    }
-                } catch (err) {
-                    console.log("err"); 
-                }
-            }
-    
-            //appelle de la fonction 
-            pushData();
-            }) 
+        itemsBalise.appendChild(article);
     }
     
-    dataButton();
-    
+}
