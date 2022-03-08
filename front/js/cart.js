@@ -54,7 +54,7 @@ function addArticle() {
         itemContent.appendChild(contentDescription) + itemContent.appendChild(nameProduct);
         quantityProduct.appendChild(itemInput);
         quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemInput);
-        quantityProduct.appendChild('p').textContent = 'quantité : ';
+        quantityProduct.querySelector('p').textContent = 'quantité : ';
         contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
         contentDescription.querySelector('h2').textContent = localItems[j].name + "-" + localItems[j].color;
         let totalPriceUni = localItems[j].quantity*localItems[j].price;
