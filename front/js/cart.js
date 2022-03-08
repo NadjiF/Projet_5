@@ -1,68 +1,181 @@
+const cart = []                     // []= array
 
-//récupération des élements panier
+retrieveItemsFromCache()
+console.log(cart)
+cart.forEach(item => displayItem(item)) //loupe
 
-let localItems = JSON.parse(localStorage.getItem('itemToCart'));
+function retrieveItemsFromCache() {           /// on recupere les items du cache et on les mets dans une variable
 
-console.log(localItems);
-
-//Fonction affichage des caractéristiques de l'article (produit)
-
-function addArticle() {
-
-    for(j = 0; j < localItems.length; j++) {   //création de boucle(i déjà utilisé dans page product)       
-        const itemsBalise = document.getElementById("cart__items");
-        //ajout des balises pour les caractéristiques du produit
-        const article = document.createElement("article");
-        const divImg = document.createElement("div");
-        const img = document.createElement("img");
-        const itemContent = document.createElement("div");
-        const contentDescription = document.createElement("div");
-        const nameProduct = document.createElement("h2");
-        const colorProduct = document.createElement("p");
-        const priceProduct = document.createElement("p");
-        const contentSetting = document.createElement("div");
-        const quantityProduct = document.createElement("div");
-        const pQuantity = document.createElement("p");
-        const itemInput = document.createElement("input");
-        const settingDelete = document.createElement("div");
-        const deleteItem = document.createElement("p")
-
-        // ajout des attributs et classes des balises (HTML CART)
-
-        article.classList.add("cart__item");
-        divImg.setAttribute("data-id", `${localItems[j].id}`);
-        img.classList.add("cart__item__img");
-        itemContent.classList.add("cart__item__content");
-        contentDescription.classList.add("cart__item__description");
-        nameProduct.classList.add("cart__item__settings");
-        quantityProduct.classList.add("cart__item__content__settings__quantity");
-        itemInput.classList.add("itemQuantity");
-        itemInput.setAttribute("type","number");
-        itemInput.setAttribute("name","itemQuantity");
-        itemInput.setAttribute("min","1");
-        itemInput.setAttribute("value",localItems[j].quantity);
-        settingDelete.classList.add("cart__item__content__settings__delete");
-        deleteItem.classList.add("deleteItem");
-
-        //Données stockées dans les balises(statiques et dynamiques)
-        //Ajout de l'affichage du prix selon le produit(type)
-
-        article.appendChild(divImg) + article.appendChild(itemContent);
-        divImg.appendChild(img);
-        divImg.querySelector("img").src = localItems[j].img;
-        divImg.querySelector("img").alt = localItems[j].alt;
-        itemContent.appendChild(contentDescription) + itemContent.appendChild(nameProduct);
-        quantityProduct.appendChild(itemInput);
-        quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemInput);
-        quantityProduct.querySelector('p').textContent = 'quantité : ';
-        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
-        contentDescription.querySelector('h2').textContent = localItems[j].name + "-" + localItems[j].color;
-        let totalPriceUni = localItems[j].quantity*localItems[j].price;
-        contentDescription.querySelector('p').textContent = 'montant total produit : ' + totalPriceUni + ' € ' + ' - ' + '(Montant unitaire : ' + localItems[j].price + ' € )' ;
-        settingDelete.appendChild(deleteItem)
-        deleteItem.textContent = 'supprimer';
-
-        itemsBalise.appendChild(article);
+    const numberOfItems = localStorage.length
+    for (let i = 0;i < numberOfItems; i++) {
+        //console.log(i)
+        const item = localStorage.getItem(localStorage.key(i)) || ""
+        const itemObject = JSON.parse(item)      //JSON.parse: prend une chaine de caractere pour en faire un objet
+        cart.push(itemObject)                    //a chaque fois que lon trouve un objet on PUSH ce dernier
     }
-    
+}
+
+function displayItem(item) {
+    const article = makeArticle(item)
+    const imageDiv = makeImageDiv(item)
+    article.appendChild(imageDiv)
+
+    const cardItemContent = makeCartContent(item)
+    article.appendChild(cardItemContent)
+    displayArticle(article)
+    displayTotalQuantity(item)
+    displayTotalPrice(item)
+}
+
+function displayTotalQuantity(item) {
+    let total = 0
+    const totalQuantity = document.querySelector("#totalQuantity")
+    cart.forEach(item => {
+        const totalUnitQuantity = item.quantity
+        total += totalUnitQuantity
+    })
+    totalQuantity.textContent = total
+}
+
+function displayTotalPrice(item) {
+    let total = 0
+    const totalPrice = document.querySelector("#totalPrice")
+    cart.forEach(item => {
+        const totalUnitPrice = item.price * item.quantity
+        total += totalUnitPrice
+    })
+    totalPrice.textContent = total
+}
+
+
+function makeCartContent(item) {
+    const cardItemContent = document.createElement("div")
+    cardItemContent.classList.add("cart__item__content")
+    const description = makeDescription(item)
+    const settings = makeSettings(item)
+
+    cardItemContent.appendChild(description)
+    cardItemContent.appendChild(settings)
+    return cardItemContent
+}
+
+function makeSettings(item) {
+    const settings = document.createElement("div")
+    settings.classList.add("cart__content__settings")
+
+    addQuantityToSettings(settings, item)
+    addDeleteToSettings(settings, item)
+    return settings
+}
+
+function addDeleteToSettings(settings, item) {
+    const div = document.createElement("div")
+    div.classList.add("cart__item__content__settings__delete")
+    div.addEventListener("click", () => deleteItem(item))
+    const p = document.createElement("p")
+    p.textContent = "Supprimer"
+    div.appendChild(p)
+    settings.appendChild(div)
+}
+
+function deleteItem(item) {
+    const itemToDelete = cart.findIndex(
+      (product) => product.id === item.id && product.color === item.color
+    )
+    cart.splice(itemToDelete, 1)
+    displayTotalPrice()
+    displayTotalQuantity()
+    deleteDataFromCache(item)
+    deleteArticleFromPage(item)
+  }
+
+function deleteArticleFromPage(item) {
+    const articleToDelete = document.querySelector(
+      `article[data-id="${item.id}"][data-color="${item.color}"]`
+    )
+    articleToDelete.remove()
+}
+
+
+function addQuantityToSettings(settings, item) {
+    const quantity = document.createElement("div")
+    quantity.classList.add("cart__item__content__settings__quantity")
+
+    const p = document.createElement("p")
+    p.textContent = "Qté : "
+    quantity.appendChild(p)
+
+    const input = document.createElement("input")
+    input.type = "number"
+    input.classList.add("itemQuantity")
+    input.name = "itemQuantity"
+    input.min = "1"
+    input.max = "100"
+    input.value = item.quantity
+    input.addEventListener("input", () => updatePriceAndQuantity(item.id, input.value, item)) // si chgnt
+
+    quantity.appendChild(input)
+    settings.appendChild(quantity)
+}
+
+function updatePriceAndQuantity(id, newValue, item) {
+    const itemToUpdate = cart.find(item => item.id === id)
+    itemToUpdate.quantity = Number(newValue)
+    item.quantity = itemToUpdate.quantity
+    displayTotalQuantity()
+    displayTotalPrice()
+    deleteDataFromCache(item)
+}
+function deleteDataFromCache(item) {
+    const key = `${item.id}-${item.color}`
+    //console.log("on retire cette key", key)
+
+    localStorage.removeItem(key)
+}
+
+function saveNewDataToCache(item) {
+    const dataToSave = JSON.stringify(item) // JSON.stringify: prend l objet et le transforme en chaine de caractere
+    const key = `${item.id}-${item.color}`
+    localStorage.setItem(key, dataToSave)
+}
+
+function makeDescription(item) {
+    const description = document.createElement("div")
+    description.classList.add("cart__item__content__description")
+
+    const h2 = document.createElement("h2")
+    h2.textContent = item.name 
+
+    const p = document.createElement("p")
+    p.textContent = item.color
+
+    const p2 = document.createElement("p2")
+    p2.textContent = item.price + " €"
+
+    description.appendChild(h2)
+    description.appendChild(p)
+    description.appendChild(p2)
+    return description
+}
+
+function displayArticle(article) {
+    document.querySelector("#cart__items").appendChild(article)
+}
+
+function makeArticle(item) {
+    const article = document.createElement("article")
+    article.classList.add("card__item")
+    article.dataset.id = item.id
+    article.dataset.color = item.color
+    return article
+}
+
+function makeImageDiv(item) {
+    const div = document.createElement("div")
+    div.classList.add("cart__item__img")
+    const image = document.createElement("img")
+    image.src = item.imageUrl
+    image.alt = item.altTxt
+    div.appendChild(image)
+    return div
 }
