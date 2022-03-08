@@ -66,4 +66,3 @@ function addArticle() {
     }
     
 }
-addArticle();
