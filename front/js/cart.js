@@ -179,3 +179,95 @@ function makeImageDiv(item) {
     div.appendChild(image)
     return div
 }
+/*----------------------------------*/
+/*-------------FORM------------------*/
+/*----------------------------------*/
+
+
+const orderButton = document.querySelector("#order") // formulaire contatct
+orderButton.addEventListener("click", (e) => submitForm(e))
+
+function submitForm(e) {
+    e.preventDefault()
+    if (cart.length === 0) {
+        alert("Please select products to buy")
+        return
+    }
+
+    if (isFormInvalid()) return
+    if (isEmailInvalid()) return
+    
+
+    const body = makeRequestBody()
+
+    fetch("http://localhost:3000/api/products/order", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type" : "application/json",
+        } 
+    }) 
+        .then((res) => res.json())
+        .then((data) => {
+            const orderId = data.orderId
+            window.location.href = "./confirmation.html" + "?orderId=" + orderId
+          })
+        .catch((err) => console.error(err)) // afficher l'erreur si présente
+        //console.log(form.elements.value)
+} 
+
+function isFormInvalid() {          //ALERT: VEUILLEZ REMPLIR TOUS LES CHAMPS
+    const form =document.querySelector(".cart__order__form")
+    const inputs = form.querySelectorAll("input") // une liste de tous les input
+    inputs.forEach((input) => {                 //pr chaque input 
+        if (input.value === "") {               // si la value est null
+          alert("Please fill all the fields")   // alert " please ..."
+          return true
+        }
+        return false
+      })
+}
+
+function isEmailInvalid() {         //utilisation REGEX pour entrer un email valide !
+    const email = document.querySelector("#email").value    // pr afficher l email dans la console
+    console.log(email)
+    const regex = /^[A-Za-z0-9+_.-]+@(.+)$/
+        if (regex.test(email) === false) {
+            alert("Please enter valid email")
+            return true
+        }
+      return false
+}
+
+function makeRequestBody() {
+    const form = document.querySelector(".cart__order__form")
+    const firstName = form.elements.firstName.value
+    const lastName = form.elements.lastName.value
+    const address = form.elements.address.value
+    const city = form.elements.city.value
+    const email = form.elements.email.value
+    const body = { 
+        contact: {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            email: email
+        },
+        products: getIdsFromCache()
+    }
+    //console.log(body)
+    return body
+}
+
+function getIdsFromCache() {
+    const numberOfProducts = localStorage.length
+    const ids = []
+    for (let i = 0; i < numberOfProducts; i++) {
+        const key = localStorage.key(i)
+        //console.log(key)
+        const id = key.split("-")[0] // pr récup juste l ID sans la couleur
+        ids.push(id)
+    }
+    return ids 
+}
