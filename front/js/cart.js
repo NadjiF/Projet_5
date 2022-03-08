@@ -65,7 +65,7 @@ function addArticle() {
         settingDelete.appendChild(deleteItem)
         deleteItem.textContent = 'supprimer';
 
-        //itemsBalise.appendChild(article);
+        itemsBalise.appendChild(article);
     }
     
 }
