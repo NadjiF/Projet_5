@@ -10,8 +10,11 @@ console.log(localItems);
 function addArticle() {
 
     for(j = 0; j < localItems.length; j++) {   //création de boucle(i déjà utilisé dans page product)       
+        
         const itemsBalise = document.getElementById("cart__items");
+        
         //ajout des balises pour les caractéristiques du produit
+        
         const article = document.createElement("article");
         const divImg = document.createElement("div");
         const img = document.createElement("img");
@@ -62,7 +65,7 @@ function addArticle() {
         settingDelete.appendChild(deleteItem)
         deleteItem.textContent = 'supprimer';
 
-        itemsBalise.appendChild(article);
+        //itemsBalise.appendChild(article);
     }
     
 }
