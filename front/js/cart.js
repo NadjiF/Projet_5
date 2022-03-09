@@ -67,6 +67,16 @@ function addArticle() {
     
 }
 addArticle();
-// fonction Prix total
+// affichage de la quantité et Prix total
+document.getElementById("totalQuantity").innerHTML = quantité;
+      document.getElementById("totalPrice").innerHTML = Intl.NumberFormat(
+        "fr-FR",
+        {
+          style: "currency",
+          currency: "EUR",
+          maximumFractionDigits: 0,
+        }
+      ).format(total);
+
 
 
