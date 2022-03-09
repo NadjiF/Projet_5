@@ -1,75 +1,4 @@
 
-//récupération des élements panier
-
-let localItems = JSON.parse(localStorage.getItem('itemToCart'));
-
-console.log(localItems);
-
-//Fonction affichage des caractéristiques de l'article (produit)
-
-function addArticle() {
-
-    for(j = 0; j < localItems.length; j++) {   //création de boucle(i déjà utilisé dans page product)       
-        
-        const itemsBalise = document.getElementById("cart__items");
-        
-        //ajout des balises pour les caractéristiques du produit
-        
-        const article = document.createElement("article");
-        const divImg = document.createElement("div");
-        const img = document.createElement("img");
-        const itemContent = document.createElement("div");
-        const contentDescription = document.createElement("div");
-        const nameProduct = document.createElement("h2");
-        const colorProduct = document.createElement("p");
-        const priceProduct = document.createElement("p");
-        const contentSetting = document.createElement("div");
-        const quantityProduct = document.createElement("div");
-        const pQuantity = document.createElement("p");
-        const itemInput = document.createElement("input");
-        const settingDelete = document.createElement("div");
-        const deleteItem = document.createElement("p")
-
-        // ajout des attributs et classes des balises (HTML CART)
-
-        article.classList.add("cart__item");
-        divImg.setAttribute("data-id", `${localItems[j].id}`);
-        img.classList.add("cart__item__img");
-        itemContent.classList.add("cart__item__content");
-        contentDescription.classList.add("cart__item__description");
-        contentSetting.classList.add("cart__item__settings");
-        quantityProduct.classList.add("cart__item__content__settings__quantity");
-        itemInput.classList.add("itemQuantity");
-        itemInput.setAttribute("type","number");
-        itemInput.setAttribute("name","itemQuantity");
-        itemInput.setAttribute("min","1");
-        itemInput.setAttribute("value",localItems[j].quantity);
-        settingDelete.classList.add("cart__item__content__settings__delete");
-        deleteItem.classList.add("deleteItem");
-
-        //Données stockées dans les balises(statiques et dynamiques)
-        //Ajout de l'affichage du prix selon le produit(type)
-
-        article.appendChild(divImg) + article.appendChild(itemContent);
-        divImg.appendChild(img);
-        divImg.querySelector("img").src = localItems[j].img;
-        divImg.querySelector("img").alt = localItems[j].alt;
-        itemContent.appendChild(contentDescription) + itemContent.appendChild(nameProduct);
-        quantityProduct.appendChild(itemInput);
-        quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemInput);
-        quantityProduct.querySelector('p').textContent = 'quantité : ';
-        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
-        contentDescription.querySelector('h2').textContent = localItems[j].name + "-" + localItems[j].color;
-        let totalPriceUni = localItems[j].quantity*localItems[j].price;
-        contentDescription.querySelector('p').textContent = 'montant total produit : ' + totalPriceUni + ' € ' + ' - ' + '(Montant unitaire : ' + localItems[j].price + ' € )' ;
-        settingDelete.appendChild(deleteItem)
-        deleteItem.textContent = 'supprimer';
-
-        itemsBalise.appendChild(article);
-    } 
-
-//////////////////////////////////////
-
 let panier = JSON.parse(localStorage.getItem("panier"));
 let qty = 0;
 let total = 0;
@@ -110,16 +39,103 @@ if (location.href.search("confirmation") > 0) {
       let cart__items = document.getElementById("cart__items");
       for (let article of panier) {
         await fetch(
-          `http://localhost:3000/api/products/${article.id}`
+          `https://api-kanap-eu.herokuapp.com/api/products/${article.id}`
         )
           .then((res) => res.json())
           .then((data) => (article.price = data.price))
           .catch((err) => console.log(err));
 
         qty += article.quantity;
-        total += article.quantity * article.price;  
-      }
+        total += article.quantity * article.price;
 
+        // Création de toutes les balises qui seront utilisés
+        let cart__item = document.createElement("article");
+        let cart__item__img = document.createElement("div");
+        let img = document.createElement("img");
+        let cart__item__content = document.createElement("div");
+        let cart__item__content__description = document.createElement("div");
+        let cart__item__content__description__name =
+          document.createElement("h2");
+        let cart__item__content__description__color =
+          document.createElement("p");
+        let cart__item__content__description__price =
+          document.createElement("p");
+        let cart__item__content__settings = document.createElement("div");
+        let cart__item__content__settings__quantity =
+          document.createElement("div");
+        let cart__item__content__settings__quantity_qty =
+          document.createElement("p");
+        let itemQuantity = document.createElement("input");
+        let cart__item__content__settings__delete =
+          document.createElement("div");
+        let deleteItem = document.createElement("p");
+
+        // Ajout de toutes les balises au document
+        cart__items.appendChild(cart__item);
+        cart__item.appendChild(cart__item__img);
+        cart__item__img.appendChild(img);
+        cart__item.appendChild(cart__item__content);
+        cart__item__content.appendChild(cart__item__content__description);
+        cart__item__content__description.append(
+          cart__item__content__description__name,
+          cart__item__content__description__color,
+          cart__item__content__description__price
+        );
+        cart__item__content.appendChild(cart__item__content__settings);
+        cart__item__content__settings.appendChild(
+          cart__item__content__settings__quantity
+        );
+        cart__item__content__settings__quantity.appendChild(
+          cart__item__content__settings__quantity_qty
+        );
+        cart__item__content__settings__quantity.appendChild(itemQuantity);
+        cart__item__content__settings.appendChild(
+          cart__item__content__settings__delete
+        );
+        cart__item__content__settings__delete.appendChild(deleteItem);
+
+        // Ajout des classes et attributs
+        cart__item.classList.add("cart__item");
+        cart__item.setAttribute("data-id", article.id);
+        cart__item.setAttribute("data-color", article.color);
+
+        cart__item__img.classList.add("cart__item__img");
+        img.src = article.srcImg;
+        img.alt = article.altTxt;
+
+        cart__item__content.classList.add("cart__item__content");
+        cart__item__content__description.classList.add(
+          "cart__item__content__description"
+        );
+        cart__item__content__description__name.textContent = article.name;
+        cart__item__content__description__color.textContent = article.color;
+        cart__item__content__description__price.textContent = Intl.NumberFormat(
+          "fr-FR",
+          {
+            style: "currency",
+            currency: "EUR",
+            maximumFractionDigits: 0,
+          }
+        ).format(article.price);
+        cart__item__content__settings.classList.add(
+          "cart__item__content__settings"
+        );
+        cart__item__content__settings__quantity.classList.add(
+          "cart__item__content__settings__quantity"
+        );
+        cart__item__content__settings__quantity_qty.textContent = "Qté : ";
+        itemQuantity.classList.add("itemQuantity");
+        itemQuantity.setAttribute("name", "itemQuantity");
+        itemQuantity.setAttribute("type", "number");
+        itemQuantity.setAttribute("min", "1");
+        itemQuantity.setAttribute("max", "100");
+        itemQuantity.setAttribute("value", article.quantity);
+        cart__item__content__settings__delete.classList.add(
+          "cart__item__content__settings__delete"
+        );
+        deleteItem.classList.add("deleteItem");
+        deleteItem.textContent = "Supprimer";
+      }
 
       let vignettes = document.querySelectorAll(".cart__item");
       let suppressions = document.querySelectorAll(".deleteItem");
@@ -206,188 +222,186 @@ if (location.href.search("confirmation") > 0) {
         ).innerHTML = `<h3 style="text-align: center; margin-bottom: 50px;">Vous n'avez aucun article dans votre panier !</h3>`;
       }
     }
-  }
-  }
-}
-/////////////////////////////
- //------Formulaire utilisateur
+
+    //------Formulaire utilisateur
 
     // On récupère nos balises d'input du formulaire
     inputFirstName = document.querySelectorAll(
-        ".cart__order__form__question input"
-      )[0];
-      inputLastName = document.querySelectorAll(
-        ".cart__order__form__question input"
-      )[1];
-      inputAddress = document.querySelectorAll(
-        ".cart__order__form__question input"
-      )[2];
-      inputCity = document.querySelectorAll(
-        ".cart__order__form__question input"
-      )[3];
-      inputEmail = document.querySelectorAll(
-        ".cart__order__form__question input"
-      )[4];
-      // On récupère aussi les balise qui afficheront les erreurs si il y en a
-      errFirstName = document.querySelectorAll(
-        ".cart__order__form__question p"
-      )[0];
-      errLastName = document.querySelectorAll(
-        ".cart__order__form__question p"
-      )[1];
-      errAddress = document.querySelectorAll(".cart__order__form__question p")[2];
-      errCity = document.querySelectorAll(".cart__order__form__question p")[3];
-      errEmail = document.querySelectorAll(".cart__order__form__question p")[4];
-      // On récupère le bouton de soummision du formulaire
-      submitInfo = document.getElementById("order");
-  
-      validForm = false;
-      // EventListener qui récupère le prénom
-      inputFirstName.addEventListener("change", (e) => {
-        validFirstName(e.target.value);
-        contact.firstName = e.target.value;
-      });
-      // EventListener qui récupère le nom de famille
-      inputLastName.addEventListener("change", (e) => {
-        validLastName(e.target.value);
-        contact.lastName = e.target.value;
-      });
-      // EventListener qui récupère l'adresse
-      inputAddress.addEventListener("change", (e) => {
-        validAddress(e.target.value);
-        contact.address = e.target.value;
-      });
-      // EventListener qui récupère la ville
-      inputCity.addEventListener("change", (e) => {
-        validCity(e.target.value);
-        contact.city = e.target.value;
-      });
-      // EventListener qui récupère l'email
-      inputEmail.addEventListener("change", (e) => {
-        validEmail(e.target.value);
-        contact.email = e.target.value;
-      });
-      // Fonction qui vérifie à l'aide d'une RegExp que le champ prénom ne contiens pas de chiffre
-      function validFirstName(firstName) {
-        if (firstName.length == 0) {
-          errFirstName.innerHTML = "Votre prénom n'est pas renseigné !";
-          validForm = false;
-        } else if (!/[0-9]/.test(firstName)) {
-          errFirstName.innerText = "";
-          validForm = true;
-        } else {
-          errFirstName.innerText = "Votre prénom ne peut pas contenir de chiffre";
-          validForm = false;
-        }
+      ".cart__order__form__question input"
+    )[0];
+    inputLastName = document.querySelectorAll(
+      ".cart__order__form__question input"
+    )[1];
+    inputAddress = document.querySelectorAll(
+      ".cart__order__form__question input"
+    )[2];
+    inputCity = document.querySelectorAll(
+      ".cart__order__form__question input"
+    )[3];
+    inputEmail = document.querySelectorAll(
+      ".cart__order__form__question input"
+    )[4];
+    // On récupère aussi les balise qui afficheront les erreurs si il y en a
+    errFirstName = document.querySelectorAll(
+      ".cart__order__form__question p"
+    )[0];
+    errLastName = document.querySelectorAll(
+      ".cart__order__form__question p"
+    )[1];
+    errAddress = document.querySelectorAll(".cart__order__form__question p")[2];
+    errCity = document.querySelectorAll(".cart__order__form__question p")[3];
+    errEmail = document.querySelectorAll(".cart__order__form__question p")[4];
+    // On récupère le bouton de soummision du formulaire
+    submitInfo = document.getElementById("order");
+
+    validForm = false;
+    // EventListener qui récupère le prénom
+    inputFirstName.addEventListener("change", (e) => {
+      validFirstName(e.target.value);
+      contact.firstName = e.target.value;
+    });
+    // EventListener qui récupère le nom de famille
+    inputLastName.addEventListener("change", (e) => {
+      validLastName(e.target.value);
+      contact.lastName = e.target.value;
+    });
+    // EventListener qui récupère l'adresse
+    inputAddress.addEventListener("change", (e) => {
+      validAddress(e.target.value);
+      contact.address = e.target.value;
+    });
+    // EventListener qui récupère la ville
+    inputCity.addEventListener("change", (e) => {
+      validCity(e.target.value);
+      contact.city = e.target.value;
+    });
+    // EventListener qui récupère l'email
+    inputEmail.addEventListener("change", (e) => {
+      validEmail(e.target.value);
+      contact.email = e.target.value;
+    });
+    // Fonction qui vérifie à l'aide d'une RegExp que le champ prénom ne contiens pas de chiffre
+    function validFirstName(firstName) {
+      if (firstName.length == 0) {
+        errFirstName.innerHTML = "Votre prénom n'est pas renseigné !";
+        validForm = false;
+      } else if (!/[0-9]/.test(firstName)) {
+        errFirstName.innerText = "";
+        validForm = true;
+      } else {
+        errFirstName.innerText = "Votre prénom ne peut pas contenir de chiffre";
+        validForm = false;
       }
-      // Fonction qui vérifie à l'aide d'une RegExp que le champ nom ne contiens pas de chiffre
-      function validLastName(lastName) {
-        if (lastName.length == 0) {
-          errLastName.innerHTML = "Votre prénom n'est pas renseigné !";
-          validForm = false;
-        } else if (!/[0-9]/.test(lastName)) {
-          errLastName.innerText = "";
-          validForm = true;
-        } else {
-          errLastName.innerText = "Votre nom ne peut pas contenir de chiffre";
-          return false;
-        }
+    }
+    // Fonction qui vérifie à l'aide d'une RegExp que le champ nom ne contiens pas de chiffre
+    function validLastName(lastName) {
+      if (lastName.length == 0) {
+        errLastName.innerHTML = "Votre prénom n'est pas renseigné !";
+        validForm = false;
+      } else if (!/[0-9]/.test(lastName)) {
+        errLastName.innerText = "";
+        validForm = true;
+      } else {
+        errLastName.innerText = "Votre nom ne peut pas contenir de chiffre";
+        return false;
       }
-      function validAddress(address) {
-        if (address.length == 0) {
-          errAddress.innerHTML = "Votre adresse n'est pas renseigné !";
-          validForm = false;
-        } else {
-          errAddress.innerHTML = "";
-          validForm = true;
-        }
+    }
+    function validAddress(address) {
+      if (address.length == 0) {
+        errAddress.innerHTML = "Votre adresse n'est pas renseigné !";
+        validForm = false;
+      } else {
+        errAddress.innerHTML = "";
+        validForm = true;
       }
-      function validCity(city) {
-        if (city.length == 0) {
-          errCity.innerHTML = "Votre ville n'est pas renseigné !";
-          validForm = false;
-        } else {
-          errCity.innerHTML = "";
-          validForm = true;
-        }
+    }
+    function validCity(city) {
+      if (city.length == 0) {
+        errCity.innerHTML = "Votre ville n'est pas renseigné !";
+        validForm = false;
+      } else {
+        errCity.innerHTML = "";
+        validForm = true;
       }
-      // Fonction qui vérifie à l'aide d'une RegExp que le champ email est au format "texte@texte.txt"
-      function validEmail(email) {
-        let emailRegExp = new RegExp(
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        );
-        if (email.length == 0) {
-          errEmail.innerHTML = "Votre mail n'est pas renseigné !";
-          validForm = false;
-        } else if (emailRegExp.test(email)) {
-          errEmail.innerHTML = "";
-          validForm = true;
-        } else {
-          errEmail.innerHTML = "Votre mail n'est pas valide !";
-          validForm = false;
-        }
+    }
+    // Fonction qui vérifie à l'aide d'une RegExp que le champ email est au format "texte@texte.txt"
+    function validEmail(email) {
+      let emailRegExp = new RegExp(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      );
+      if (email.length == 0) {
+        errEmail.innerHTML = "Votre mail n'est pas renseigné !";
+        validForm = false;
+      } else if (emailRegExp.test(email)) {
+        errEmail.innerHTML = "";
+        validForm = true;
+      } else {
+        errEmail.innerHTML = "Votre mail n'est pas valide !";
+        validForm = false;
       }
-  
-      // Eventlistener qui fonctionne seulement si tout les champs sont correctement rempli
-      submitInfo.addEventListener("click", (e) => {
-        e.preventDefault();
-        // Fonction fetch qui envoie à l'API un objet contenant l'objet 'contact' et le tableau 'products'
-        async function sendData() {
-          await fetch("https://api-kanap-eu.herokuapp.com/api/products/order", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ contact, products }),
+    }
+
+    // Eventlistener qui fonctionne seulement si tout les champs sont correctement rempli
+    submitInfo.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Fonction fetch qui envoie à l'API un objet contenant l'objet 'contact' et le tableau 'products'
+      async function sendData() {
+        await fetch("https://api-kanap-eu.herokuapp.com/api/products/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ contact, products }),
+        })
+          // Ensuite on stock la réponse de l'api (orderId)
+          .then(function (response) {
+            return response.json();
           })
-            // Ensuite on stock la réponse de l'api (orderId)
-            .then(function (response) {
-              return response.json();
-            })
-            .then(function (data) {
-              orderId = data.orderId;
-            });
-          // SI on a bien obtenu un orderId en réponse on redirige notre utilisateur
-          if (orderId != undefined || orderId != "") {
-            location.href = "confirmation.html?" + orderId + "#orderId";
-          }
+          .then(function (data) {
+            orderId = data.orderId;
+          });
+        // SI on a bien obtenu un orderId en réponse on redirige notre utilisateur
+        if (orderId != undefined || orderId != "") {
+          location.href = "confirmation.html?" + orderId + "#orderId";
         }
-        // Fontion qui envoie les id de tout les produits dans le tableau product
-        function collectDatas() {
-          for (let article of panier) {
-            products.push(article.id);
-          }
+      }
+      // Fontion qui envoie les id de tout les produits dans le tableau product
+      function collectDatas() {
+        for (let article of panier) {
+          products.push(article.id);
         }
-        // SI tout les champs sont valides (validForm = true) on continue l'execution du code
-        if (validForm) {
-          if (panier) {
-            new Swal({
-              title: "Commande en cours...",
-              icon: "question",
-              iconColor: "yellow",
-              confirmButtonColor: "#2c3e50",
-              showConfirmButton: false,
-            });
-            collectDatas();
-            sendData();
-          } else {
-            new Swal({
-              title: "Votre panier est vide !",
-              icon: "error",
-              iconColor: "red",
-              confirmButtonColor: "#2c3e50",
-              timer: 3000,
-              showConfirmButton: false,
-            });
-          }
+      }
+      // SI tout les champs sont valides (validForm = true) on continue l'execution du code
+      if (validForm) {
+        if (panier) {
+          new Swal({
+            title: "Commande en cours...",
+            icon: "question",
+            iconColor: "yellow",
+            confirmButtonColor: "#2c3e50",
+            showConfirmButton: false,
+          });
+          collectDatas();
+          sendData();
+        } else {
+          new Swal({
+            title: "Votre panier est vide !",
+            icon: "error",
+            iconColor: "red",
+            confirmButtonColor: "#2c3e50",
+            timer: 3000,
+            showConfirmButton: false,
+          });
         }
-        // SINON on reverifie les champs
-        else {
-          validFirstName(inputFirstName.value);
-          validLastName(inputLastName.value);
-          validAddress(inputAddress.value);
-          validCity(inputCity.value);
-          validEmail(inputEmail.value);
-        }
-      });
-    
+      }
+      // SINON on reverifie les champs
+      else {
+        validFirstName(inputFirstName.value);
+        validLastName(inputLastName.value);
+        validAddress(inputAddress.value);
+        validCity(inputCity.value);
+        validEmail(inputEmail.value);
+      }
+    });
+  }
+}
