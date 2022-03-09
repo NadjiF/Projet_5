@@ -68,7 +68,7 @@ function addArticle() {
 }
 addArticle();
 // affichage de la quantité et Prix total
-document.getElementById("totalQuantity").innerHTML = quantité;
+document.getElementById("totalQuantity").innerHTML = qty;
       document.getElementById("totalPrice").innerHTML = Intl.NumberFormat(
         "fr-FR",
         {
