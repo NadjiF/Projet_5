@@ -66,3 +66,7 @@ function addArticle() {
     }
     
 }
+addArticle();
+// fonction Prix total
+
+
