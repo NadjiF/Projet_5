@@ -13,6 +13,7 @@ function addArticle() {
         const itemsBalise = document.getElementById("cart__items");
         //ajout des balises pour les caractéristiques du produit
         const article = document.createElement("article");
+
         const divImg = document.createElement("div");
         const img = document.createElement("img");
         const itemContent = document.createElement("div");
@@ -30,16 +31,17 @@ function addArticle() {
         // ajout des attributs et classes des balises (HTML CART)
 
         article.classList.add("cart__item");
-        divImg.setAttribute("data-id", `${localItems[j].id}`);
+        article.setAttribute("data-id", `${localItems[j].id}`);
         img.classList.add("cart__item__img");
         itemContent.classList.add("cart__item__content");
-        contentDescription.classList.add("cart__item__description");
-        contentSetting.classList.add("cart__item__settings");
+        contentDescription.classList.add("cart__item__content__description");
+        contentSetting.classList.add("cart__item__content__settings");
         quantityProduct.classList.add("cart__item__content__settings__quantity");
         itemQuantity.classList.add("itemQuantity");
         itemQuantity.setAttribute("type","number");
         itemQuantity.setAttribute("name","itemQuantity");
         itemQuantity.setAttribute("min","1");
+        itemQuantity.setAttribute("max","100");
         itemQuantity.setAttribute("value",localItems[j].quantity);
         settingDelete.classList.add("cart__item__content__settings__delete");
         deleteItem.classList.add("deleteItem");
@@ -52,24 +54,19 @@ function addArticle() {
         divImg.querySelector("img").src = localItems[j].img;
         divImg.querySelector("img").alt = localItems[j].alt;
 
-        itemContent.appendChild(contentDescription) 
-        contentDescription.appendChild(nameProduct);
-        contentDescription.appendChild(colorProduct);
-        contentDescription.appendChild(priceProduct);
-        contentDescription.querySelector('h2').textContent = localItems[j].name;
-        contentDescription.querySelector('p').textContent = localItems [j].colorProduct;
+        itemContent.appendChild(contentDescription)
+        contentDescription.appendChild(nameProduct) 
+        contentDescription.appendChild(colorProduct)
+        contentDescription.appendChild(priceProduct)
         
-        contentDescription.querySelector('p').textContent = localItems[j].priceProduct;
+        contentDescription.querySelector('h2').textContent = localItems[j].name;
+        contentDescription.querySelector('p').textContent = localItems[j].color; 
+        contentDescription.querySelector('p').textContent = localItems[j].price + '€';
+        
 
         contentSetting.appendChild(quantityProduct);
         quantityProduct.appendChild(pQuantity);
-        pQuantity.textContent = 'Qté : ';
-        itemQuantity.classList.add("itemQuantity");
-        itemQuantity.setAttribute("name", "itemQuantity");
-        itemQuantity.setAttribute("type", "number");
-        itemQuantity.setAttribute("min", "1");
-        itemQuantity.setAttribute("max", "100");
-        itemQuantity.setAttribute("value", article.quantity);
+        pQuantity.textContent = 'Qté : '+ quantityProduct.appendChild(itemQuantity);
        
         settingDelete.appendChild(deleteItem);
         deleteItem.textContent = 'supprimer';
