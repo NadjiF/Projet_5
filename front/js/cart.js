@@ -55,18 +55,19 @@ function addArticle() {
         divImg.querySelector("img").alt = localItems[j].alt;
 
         itemContent.appendChild(contentDescription)
-        contentDescription.appendChild(nameProduct) 
-        contentDescription.appendChild(colorProduct)
-        contentDescription.appendChild(priceProduct)
-        
-        contentDescription.querySelector('h2').textContent = localItems[j].name;
-        contentDescription.querySelector('p').textContent = localItems[j].color; 
+        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct)
+        contentDescription.querySelector('h2').textContent = localItems[j].name + ' - ' + localItems[j].color;
         contentDescription.querySelector('p').textContent = localItems[j].price + '€';
         
+        contentSetting.appendChild(quantityProduct) + contentSetting.appendChild(settingDelete);
 
-        contentSetting.appendChild(quantityProduct);
-        quantityProduct.appendChild(pQuantity);
-        pQuantity.textContent = 'Qté : '+ quantityProduct.appendChild(itemQuantity);
+        quantityProduct.appendChild(itemQuantity)
+        quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemQuantity);
+        quantityProduct.querySelector('p').textContent = "Qté : ";
+
+        
+
+        
        
         settingDelete.appendChild(deleteItem);
         deleteItem.textContent = 'supprimer';
@@ -76,5 +77,5 @@ function addArticle() {
     
 }
 addArticle();
-// affichage de la quantité et Prix total
+
 
