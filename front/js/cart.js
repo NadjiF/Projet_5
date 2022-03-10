@@ -61,7 +61,7 @@ function addArticle() {
         
         contentSetting.appendChild(quantityProduct) + contentSetting.appendChild(settingDelete);
 
-        quantityProduct.appendChild(itemQuantity)
+        
         quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemQuantity);
         quantityProduct.querySelector('p').textContent = "Qté : ";
 
