@@ -68,15 +68,50 @@ function addArticle() {
 }
 addArticle();
 // affichage de la quantité et Prix total
-document.getElementById("totalQuantity").innerHTML = qty;
-      document.getElementById("totalPrice").innerHTML = Intl.NumberFormat(
-        "fr-FR",
-        {
-          style: "currency",
-          currency: "EUR",
-          maximumFractionDigits: 0,
-        }
-      ).format(total);
+
+//////////////////////////////////////////////////////
 
 
+let vignettes = document.querySelectorAll(".cart__item");
+let suppressions = document.querySelectorAll(".deleteItem");
+let quantity = document.querySelectorAll(".itemQuantity");
 
+for (let i = 0; i < vignettes.length; i++) {
+  const qty = quantity[i];
+  const objet = panier[i];
+  qty.addEventListener("change", (e) => {
+    //On envoie la quantité selectionnée dans le panier
+    objet.quantity = parseInt(e.target.value);
+    // // On met à jour le localstorage
+    localStorage.setItem("panier", JSON.stringify(panier));
+    // on lance la fonction qui va mettre à jour le prix et le total de la page panier
+    recalc();
+  });
+}
+
+for (let i = 0; i < vignettes.length; i++) {
+  const suppr = suppressions[i];
+  let colorId = panier[i].color;
+  let dataId = panier[i].id;
+  // let article = panier[i];
+  suppr.addEventListener("click", () => {
+    // On supprime de notre panier l'élément de la boucle selectionné via splice()
+    let filtre = panier.filter(function (article) {
+      return article.id != dataId || article.color != colorId;
+    });
+
+    panier = filtre;
+    console.log(panier);
+
+    // on supprime le code HTML de ce même élément
+    document
+      .querySelector(
+        `[data-id='${dataId}']` && `[data-color='${colorId}']`
+      )
+      .remove();
+    // On met à jour le localstorage
+    localStorage.setItem("panier", JSON.stringify(panier));
+    // on lance la fonction qui va mettre à jour le prix et le total de la page panier
+    recalc();
+  });
+}

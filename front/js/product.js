@@ -92,7 +92,7 @@ if(localItems) {
           }else {
             localItems = [];
 
-            // Stockage du tableau dans le localStorage.
+            // Stockage de l'array dans le localStorage.
 
             localItems.push(itemCart);
             localStorage.setItem('itemToCart', JSON.stringify(localItems))
