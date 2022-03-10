@@ -49,28 +49,28 @@ function addArticle() {
         //Données stockées dans les balises(statiques et dynamiques)
         //Ajout de l'affichage du prix selon le produit(type)
 
+    
+
+        
+        
+        
+        //////////////////
+        
+        
         article.appendChild(divImg) + article.appendChild(itemContent);
         divImg.appendChild(img);
-        divImg.querySelector("img").src = localItems[j].img;
-        divImg.querySelector("img").alt = localItems[j].alt;
-
-        itemContent.appendChild(contentDescription)
-        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct)
-        contentDescription.querySelector('h2').textContent = localItems[j].name + ' - ' + localItems[j].color;
-        contentDescription.querySelector('p').textContent = localItems[j].price + '€';
-        
-        contentSetting.appendChild(quantityProduct) + contentSetting.appendChild(settingDelete);
-
-        
+        divImg.querySelector('img').src = localItems[j].img;
+        divImg.querySelector('img').alt = localItems[j].alt;
+        quantityProduct.appendChild(itemQuantity);
         quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemQuantity);
-        quantityProduct.querySelector('p').textContent = "Qté : ";
-
-        
-
-        
-       
-        settingDelete.appendChild(deleteItem);
-        deleteItem.textContent = 'supprimer';
+        quantityProduct.querySelector('p').textContent = 'Qté : ';
+        settingDelete.appendChild(itemQuantity);
+        itemContent.appendChild(contentDescription) + itemContent.appendChild(contentSetting);
+        contentSetting.appendChild(quantityProduct) + contentSetting.appendChild(settingDelete);
+        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
+        contentDescription.querySelector('h2').textContent = localItems[j].name + " - " + localItems[j].color;
+        contentDescription.querySelector('p').textContent = localItems[j].price + '€';
+        deleteItem.textContent = 'Supprimer';
 
         itemsBalise.appendChild(article);
     }
