@@ -1,81 +1,328 @@
 
-//récupération des élements panier
+//récupération des élements panier & Fonction affichage des caractéristiques de l'article (produit)
 
 let localItems = JSON.parse(localStorage.getItem('itemToCart'));
 
 console.log(localItems);
 
-//Fonction affichage des caractéristiques de l'article (produit)
 
-function addArticle() {
+function addChosenArticle() {
 
-    for(j = 0; j < localItems.length; j++) {   //création de boucle(i déjà utilisé dans page product)       
-        const itemsBalise = document.getElementById("cart__items");
-        //ajout des balises pour les caractéristiques du produit
-        const article = document.createElement("article");
+    for(j = 0; j < localItems.length; j++) {        
 
-        const divImg = document.createElement("div");
-        const img = document.createElement("img");
-        const itemContent = document.createElement("div");
-        const contentDescription = document.createElement("div");
-        const nameProduct = document.createElement("h2");
-        const colorProduct = document.createElement("p");
-        const priceProduct = document.createElement("p");
-        const contentSetting = document.createElement("div");
-        const quantityProduct = document.createElement("div");
-        const pQuantity = document.createElement("p");
-        const itemQuantity = document.createElement("input");
-        const settingDelete = document.createElement("div");
-        const deleteItem = document.createElement("p")
+   
+    const divCartItems = document.getElementById('cart__items');
 
-        // ajout des attributs et classes des balises (HTML CART)
 
-        article.classList.add("cart__item");
-        article.setAttribute("data-id", `${localItems[j].id}`);
-        img.classList.add("cart__item__img");
-        itemContent.classList.add("cart__item__content");
-        contentDescription.classList.add("cart__item__content__description");
-        contentSetting.classList.add("cart__item__content__settings");
-        quantityProduct.classList.add("cart__item__content__settings__quantity");
-        itemQuantity.classList.add("itemQuantity");
-        itemQuantity.setAttribute("type","number");
-        itemQuantity.setAttribute("name","itemQuantity");
-        itemQuantity.setAttribute("min","1");
-        itemQuantity.setAttribute("max","100");
-        itemQuantity.setAttribute("value",localItems[j].quantity);
-        settingDelete.classList.add("cart__item__content__settings__delete");
-        deleteItem.classList.add("deleteItem");
+ 
 
-        //Données stockées dans les balises(statiques et dynamiques)
+    const divArticle = document.createElement('article');
+    const divImg = document.createElement("div");
+    const img = document.createElement("img");
+    const itemContent = document.createElement("div");
+    const contentDescription = document.createElement("div");
+    const nameProduct = document.createElement("h2");
+    const colorProduct = document.createElement("p");
+    const priceProduct = document.createElement("p");
+    const contentSettings = document.createElement("div");
+    const settingsQuantity = document.createElement("div");
+    const pQuantity = document.createElement("p");
+    const inputQuant = document.createElement("input");
+    const settingDelete = document.createElement("div");
+    const deleteItem = document.createElement("p")
+
+
+       // ajout des attributs et classes des balises (HTML CART)
+
+    divArticle.classList.add('cart__item');
+    divArticle.setAttribute('data-id', `${localItems[j].id}`);
+    divImg.classList.add('cart__item__img');
+    itemContent.classList.add('cart__item__content');
+    contentDescription.classList.add('cart__item__content__description');
+    contentSettings.classList.add('cart__item__content__settings');
+    settingsQuantity.classList.add('cart__item__content__settings__quantity');
+    inputQuant.classList.add('itemQuantity');
+    inputQuant.setAttribute('type', 'number');
+    inputQuant.setAttribute('name', 'itemQuantity');
+    inputQuant.setAttribute('min', '1');
+    inputQuant.setAttribute('max', '100');
+    inputQuant.setAttribute('value', localItems[j].quantity);
+    settingDelete.classList.add('cart__item__content__settings__delete');
+    deleteItem.classList.add('deleteItem');
+
+
+    //Données stockées dans les balises(statiques et dynamiques)
         //Ajout de l'affichage du prix selon le produit(type)
 
+    divArticle.appendChild(divImgBal) + articleBal.appendChild(divItemContBal);
+    divImg.appendChild(img);
+    divImg.querySelector('img').src = localItems[j].img;
+    divImg.querySelector('img').alt = localItems[j].alt;
+    settingsQuantity.appendChild(inputQuant);
+    settingsQuantity.appendChild(colorProduct) + settingsQuantity.appendChild(inputQuant);
+    settingsQuantity.querySelector('p').textContent = 'Quantité : ';
+    settingDelete.appendChild(deleteItem);
+    itemContent.appendChild(contentDescription) + itemContent.appendChild(settingsQuantity);
+    contentSettings.appendChild(settingsQuantity) + contentSettings.appendChild(settingDelete);
+    contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
+    contentDescription.querySelector('h2').textContent = localItems[j].name + " - " + localItems[j].color;
+    contentDescription.querySelector('p').textContent = localItems[j].price + '€';
+    deleteItem.textContent = 'Supprimer';
+
     
+    divCartItems.appendChild(articleBal);
 
-        
-        
-        
-        //////////////////
-        
-        
-        article.appendChild(divImg) + article.appendChild(itemContent);
-        divImg.appendChild(img);
-        divImg.querySelector('img').src = localItems[j].img;
-        divImg.querySelector('img').alt = localItems[j].alt;
-        quantityProduct.appendChild(itemQuantity);
-        quantityProduct.appendChild(colorProduct) + quantityProduct.appendChild(itemQuantity);
-        quantityProduct.querySelector('p').textContent = 'Qté : ';
-        settingDelete.appendChild(itemQuantity);
-        itemContent.appendChild(contentDescription) + itemContent.appendChild(contentSetting);
-        contentSetting.appendChild(quantityProduct) + contentSetting.appendChild(settingDelete);
-        contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
-        contentDescription.querySelector('h2').textContent = localItems[j].name + " - " + localItems[j].color;
-        contentDescription.querySelector('p').textContent = localItems[j].price + '€';
-        deleteItem.textContent = 'Supprimer';
+    }
+}
 
-        itemsBalise.appendChild(article);
+
+// Fonction qui calcule les totaux pour chaque type de produit et retourne le résultat.
+
+function totalPriceProd() {
+    
+    const ptotalQuantity = document.getElementById('totalQuantity');
+    const ptotalPrice = document.getElementById('totalPrice');
+    let totalQuantitynum = 0;
+    let totalPricenum = 0;
+    
+    // Boucle pour l'application de la manip à l'ensemble des produits du panier.
+    for(k = 0; k < localItems.length; k++) {                                // Nouvelle variable de boucle différente de i et j( précédente) pour éviter les conflits.
+        totalQuantitynum += parseInt(localItems[k].quantity);
+        totalPricenum += localItems[k].price*localItems[k].quantity;
     }
     
+    ptotalQuantity.textContent = totalQuantitynum;                          // Affichage en text de la quantité tot.
+    ptotalPrice.textContent = totalPricenum;                                // Affichage en text du prix final.
 }
-addArticle();
 
 
+// Fonction modification du contenu du panier
+
+function modifPanier(){
+
+    // Sélection de l'élément à modifier : itemQuantity
+    const itemQuantityModif = document.querySelectorAll('.itemQuantity');
+
+    console.log(localItems);
+
+    // Boucle pour l'application des modif sur l'ensemble des éléments du panier disposant d'une quantité à modifier.
+    for(let l = 0; l < itemQuantityModif.length; l++) {
+
+        // Suivi du changement de l'input et modification.
+        itemQuantityModif[l].addEventListener('change', (event) => {
+            event.preventDefault();
+            let itemModif  = parseInt(localItems[l].quantity);         
+            let modifValue =  parseInt(itemQuantityModif[l].value);
+            let modif = localItems.find(el => el.modifValue != itemModif);
+            localItems[l].quantity = modifValue;
+            localStorage.setItem("itemToCart", JSON.stringify(localItems));
+
+            // Rechargement de la page pour tenir compte des modifications apportées au panier.
+            window.location.reload();
+        });
+    }
+}
+
+
+
+// Fonction suppression d'élément du panier.
+
+function supprItem() {
+
+    // Sélection de l'élément "Supprimer" des produits du panier.
+    const supprButton = document.querySelectorAll('.deleteItem');
+    
+    // Boucle pour l'application à tous les éléments contenus dans le panier.
+    for(let m = 0; m < supprButton.length; m++) {
+
+        // Suivi du "click" du bouton "Supprimer" et action résultante du click.
+        supprButton[m].addEventListener('click', (event) => {
+            event.preventDefault();
+            let supprId = localItems[m].id;
+            let supprColor = localItems[m].color;
+            localItems = localItems.filter( el => el.id !== supprId || el.color !== supprColor );
+            localStorage.setItem("itemToCart", JSON.stringify(localItems));
+
+            // Rechargement de la page pour tenir compte des modifications apportées au panier.
+            window.location.reload();
+
+        });
+    }
+}
+
+
+
+addEventListener('change', () => {
+
+    function validFirstName() {
+        let firstNameDat = document.querySelector('#firstName').value;
+        let textValid = document.getElementById('firstNameErrorMsg');
+        let regScheme = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
+
+        if (firstNameDat.match(regScheme)) {
+          
+            return firstNameDat;
+        } else {
+            textValid.innerHTML = 'Veuillez entrer un prénom valide.';
+            textValid.style.color = 'red';
+        }
+        if (firstName == '') {
+            textValid.innerHTML = '';
+        }
+    }
+
+    function validLastName() {
+        let lastNameDat = document.querySelector('#lastName').value;
+        let textValid = document.getElementById('lastNameErrorMsg');
+        let regScheme = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
+
+        if (lastNameDat.match(regScheme)) {
+           
+            return lastNameDat;            
+        } else {
+            textValid.innerHTML = 'Veuillez entrer un nom valide.';
+            textValid.style.color = 'red';
+        }
+
+        if (lastNameDat == '') {
+            textValid.innerHTML = '';
+        }
+    }
+    
+    function validAddress() {
+        let addressDat = document.querySelector('#address').value;
+        let textValid = document.getElementById('addressErrorMsg');
+        let regScheme =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
+
+        if (addressDat.match(regScheme)) {
+            
+            return addressDat;
+        } else {
+            textValid.innerHTML = 'Veuillez entrer une adresse valide';
+            textValid.style.color = 'red';
+        }
+        if (addressDat == '') {
+            textValid.innerHTML = '';
+        }
+    }
+
+    function validCity() {
+        let cityDat = document.querySelector('#city').value;
+        let textValid = document.getElementById('cityErrorMsg');
+        let regScheme = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
+
+        if (cityDat.match(regScheme)) {
+          
+            return cityDat;
+        } else {
+            textValid.innerHTML = 'Veuillez entrer un nom de ville valide.';
+            textValid.style.color = 'red';
+        }
+        if (cityDat == '') {
+            textValid.innerHTML = '';
+        }
+    }
+
+    function validEmail() {
+        let emailDat = document.querySelector('#email').value;
+        let textValid = document.getElementById('emailErrorMsg');
+        let regScheme = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+
+        if (emailDat.match(regScheme)) {
+         
+            return emailDat;
+        } else {
+            textValid.innerHTML = 'Veuillez entrer une adresse mail valide.';
+            textValid.style.color = 'red';
+        }
+        if (emailDat == '') {
+            textValid.innerHTML = '';
+        }
+    }
+
+    validFirstName();
+    validLastName();
+    validAddress();
+    validCity();
+    validEmail();
+
+
+    // Fonction récupération des données de la commande et leur envoi.
+    function orderData() {
+        // Comportement du bouton de validation de commande "Commander !".
+        const commanderButt = document.getElementById('order');
+
+        // Suivi du click sur le bouton "Commander !"
+        commanderButt.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            // Stockage des données du formulaires accompagnées des id produit.
+            let produitId = [];
+            for(let n = 0; n < localItems.length; n++) {
+                produitId.push(localItems[n].id);    
+            }
+    
+            // Objet contenant les données de la commande.
+            let contact = {
+                firstName: validFirstName(),
+                lastName: validLastName(),
+                address: validAddress(),
+                city: validCity(),
+                email: validEmail(),  
+            }
+
+
+            if (
+                contact.firstName == undefined ||
+                contact.lastName == undefined ||
+                contact.address == undefined ||
+                contact.city == undefined ||
+                contact.email == undefined 
+            ) {
+                return false
+            }
+
+
+            const commandeData = {
+                contact,
+                products: produitId,
+            }
+
+
+            // Récupération de l'id de l'order par l'API.
+            let commandPost = {
+                method: 'POST',
+                body: JSON.stringify(commandeData),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            }
+    
+
+            // Envoi des données de la commande à l'API.
+            fetch(`http://localhost:3000/api/products/order`, commandPost)
+    
+            .then(function(response) {
+                return response.json();
+            })
+
+            .then((dataList) => {
+                localStorage.setItem('orderId', JSON.stringify(dataList.orderId));
+                document.location.href = `confirmation.html?id=${dataList.orderId}`;
+            })
+            .catch((error) => {
+                console.log(`ERREUR requete POST : ${error}`);
+            });          
+        })
+    }
+    orderData();
+    
+})
+
+
+
+addChosenArticle();
+totalPriceProd();
+modifPanier();
+supprItem();
