@@ -54,7 +54,7 @@ function addChosenArticle() {
     //Données stockées dans les balises(statiques et dynamiques)
         //Ajout de l'affichage du prix selon le produit(type)
 
-    divArticle.appendChild(divImgBal) + articleBal.appendChild(divItemContBal);
+    divArticle.appendChild(divImg) + divArticle.appendChild(itemContent);
     divImg.appendChild(img);
     divImg.querySelector('img').src = localItems[j].img;
     divImg.querySelector('img').alt = localItems[j].alt;
@@ -62,7 +62,7 @@ function addChosenArticle() {
     settingsQuantity.appendChild(colorProduct) + settingsQuantity.appendChild(inputQuant);
     settingsQuantity.querySelector('p').textContent = 'Quantité : ';
     settingDelete.appendChild(deleteItem);
-    itemContent.appendChild(contentDescription) + itemContent.appendChild(settingsQuantity);
+    itemContent.appendChild(contentDescription) + itemContent.appendChild(contentSettings);
     contentSettings.appendChild(settingsQuantity) + contentSettings.appendChild(settingDelete);
     contentDescription.appendChild(nameProduct) + contentDescription.appendChild(priceProduct);
     contentDescription.querySelector('h2').textContent = localItems[j].name + " - " + localItems[j].color;
@@ -70,7 +70,7 @@ function addChosenArticle() {
     deleteItem.textContent = 'Supprimer';
 
     
-    divCartItems.appendChild(articleBal);
+    divCartItems.appendChild(divArticle);
 
     }
 }
