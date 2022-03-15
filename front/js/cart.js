@@ -76,7 +76,7 @@ function addChosenArticle() {
 }
 
 
-// Fonction qui calcule les totaux pour chaque type de produit et retourne le résultat.
+// Fonction calcule total prix
 
 function totalPriceProd() {
     
@@ -86,17 +86,17 @@ function totalPriceProd() {
     let totalPricenum = 0;
     
     // Boucle pour l'application de la manip à l'ensemble des produits du panier.
-    for(k = 0; k < localItems.length; k++) {                                // Nouvelle variable de boucle différente de i et j( précédente) pour éviter les conflits.
+    for(k = 0; k < localItems.length; k++) {                                //nouvelle boucle (i et j)
         totalQuantitynum += parseInt(localItems[k].quantity);
         totalPricenum += localItems[k].price*localItems[k].quantity;
     }
-    
-    ptotalQuantity.textContent = totalQuantitynum;                          // Affichage en text de la quantité tot.
-    ptotalPrice.textContent = totalPricenum;                                // Affichage en text du prix final.
+     // Affichage de la quantité et du prix total de la commande
+    ptotalQuantity.textContent = totalQuantitynum;                         
+    ptotalPrice.textContent = totalPricenum;                              
 }
 
 
-// Fonction modification du contenu du panier
+// Fonction modification panier
 
 function modifPanier(){
 
@@ -117,7 +117,7 @@ function modifPanier(){
             localItems[l].quantity = modifValue;
             localStorage.setItem("itemToCart", JSON.stringify(localItems));
 
-            // Rechargement de la page pour tenir compte des modifications apportées au panier.
+            // page reload après modif ou supression d'élements
             window.location.reload();
         });
     }
@@ -129,13 +129,13 @@ function modifPanier(){
 
 function supprItem() {
 
-    // Sélection de l'élément "Supprimer" des produits du panier.
+   
     const supprButton = document.querySelectorAll('.deleteItem');
     
-    // Boucle pour l'application à tous les éléments contenus dans le panier.
+    // Boucle pour l'application à tous les élements contenus dans le panier.
     for(let m = 0; m < supprButton.length; m++) {
 
-        // Suivi du "click" du bouton "Supprimer" et action résultante du click.
+        // ajour event click au boutton "supprimer"
         supprButton[m].addEventListener('click', (event) => {
             event.preventDefault();
             let supprId = localItems[m].id;
@@ -143,7 +143,7 @@ function supprItem() {
             localItems = localItems.filter( el => el.id !== supprId || el.color !== supprColor );
             localStorage.setItem("itemToCart", JSON.stringify(localItems));
 
-            // Rechargement de la page pour tenir compte des modifications apportées au panier.
+            // page reload après modif ou supression d'élements
             window.location.reload();
 
         });
@@ -157,9 +157,9 @@ addEventListener('change', () => {
     function validFirstName() {
         let firstNameDat = document.querySelector('#firstName').value;
         let textValid = document.getElementById('firstNameErrorMsg');
-        let regScheme = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
+        let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
 
-        if (firstNameDat.match(regScheme)) {
+        if (firstNameDat.match(firstReg)) {
           
             return firstNameDat;
         } else {
@@ -174,9 +174,9 @@ addEventListener('change', () => {
     function validLastName() {
         let lastNameDat = document.querySelector('#lastName').value;
         let textValid = document.getElementById('lastNameErrorMsg');
-        let regScheme = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
+        let lastReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
 
-        if (lastNameDat.match(regScheme)) {
+        if (lastNameDat.match(lastReg)) {
            
             return lastNameDat;            
         } else {
@@ -192,9 +192,9 @@ addEventListener('change', () => {
     function validAddress() {
         let addressDat = document.querySelector('#address').value;
         let textValid = document.getElementById('addressErrorMsg');
-        let regScheme =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
+        let adresseReg =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
 
-        if (addressDat.match(regScheme)) {
+        if (addressDat.match(adresseReg)) {
             
             return addressDat;
         } else {
@@ -209,9 +209,9 @@ addEventListener('change', () => {
     function validCity() {
         let cityDat = document.querySelector('#city').value;
         let textValid = document.getElementById('cityErrorMsg');
-        let regScheme = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
+        let cityReg = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
 
-        if (cityDat.match(regScheme)) {
+        if (cityDat.match(cityReg)) {
           
             return cityDat;
         } else {
@@ -226,9 +226,9 @@ addEventListener('change', () => {
     function validEmail() {
         let emailDat = document.querySelector('#email').value;
         let textValid = document.getElementById('emailErrorMsg');
-        let regScheme = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+        let mailReg = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
-        if (emailDat.match(regScheme)) {
+        if (emailDat.match(mailReg)) {
          
             return emailDat;
         } else {
