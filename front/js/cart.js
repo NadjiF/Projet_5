@@ -6,7 +6,7 @@ let localItems = JSON.parse(localStorage.getItem('itemToCart'));
 console.log(localItems);
 
 
-function addChosenArticle() {
+function addArticle() {
 
     for(j = 0; j < localItems.length; j++) {        
 
@@ -78,19 +78,19 @@ function addChosenArticle() {
 
 // Fonction calcule total prix
 
-function totalPriceProd() {
+function totalPrice() {
     
     const ptotalQuantity = document.getElementById('totalQuantity');
     const ptotalPrice = document.getElementById('totalPrice');
     let totalQuantitynum = 0;
     let totalPricenum = 0;
     
-    // Boucle pour l'application de la manip à l'ensemble des produits du panier.
-    for(k = 0; k < localItems.length; k++) {                                //nouvelle boucle (i et j)
+    // Boucle ensemble des produits du panier.
+    for(k = 0; k < localItems.length; k++) {                                
         totalQuantitynum += parseInt(localItems[k].quantity);
         totalPricenum += localItems[k].price*localItems[k].quantity;
     }
-     // Affichage de la quantité et du prix total de la commande
+     // Affichage total quantity + price
     ptotalQuantity.textContent = totalQuantitynum;                         
     ptotalPrice.textContent = totalPricenum;                              
 }
@@ -100,20 +100,18 @@ function totalPriceProd() {
 
 function modifPanier(){
 
-    // Sélection de l'élément à modifier : itemQuantity
-    const itemQuantityModif = document.querySelectorAll('.itemQuantity');
+    const modifQuantity = document.querySelectorAll('.itemQuantity');
 
     console.log(localItems);
 
-    // Boucle pour l'application des modif sur l'ensemble des éléments du panier disposant d'une quantité à modifier.
-    for(let l = 0; l < itemQuantityModif.length; l++) {
+    // Boucle modif d'element
+    for(let l = 0; l < modifQuantity.length; l++) {
 
-        // Suivi du changement de l'input et modification.
-        itemQuantityModif[l].addEventListener('change', (event) => {
+        modifQuantity[l].addEventListener('change', (event) => {
             event.preventDefault();
-            let itemModif  = parseInt(localItems[l].quantity);         
-            let modifValue =  parseInt(itemQuantityModif[l].value);
-            let modif = localItems.find(el => el.modifValue != itemModif);
+            let modifItem  = parseInt(localItems[l].quantity);         
+            let modifValue =  parseInt(modifQuantity[l].value);
+            let modif = localItems.find(el => el.modifValue != modifItem);
             localItems[l].quantity = modifValue;
             localStorage.setItem("itemToCart", JSON.stringify(localItems));
 
@@ -124,23 +122,22 @@ function modifPanier(){
 }
 
 
+// Fonction suppression d'élément du panier
 
-// Fonction suppression d'élément du panier.
-
-function supprItem() {
+function removeItem() {
 
    
-    const supprButton = document.querySelectorAll('.deleteItem');
+    const removeButton = document.querySelectorAll('.deleteItem');
     
-    // Boucle pour l'application à tous les élements contenus dans le panier.
-    for(let m = 0; m < supprButton.length; m++) {
+    // Boucle pour l'application à tous les élements contenus dans le panier
+    for(let m = 0; m < removeButton.length; m++) {
 
         // ajour event click au boutton "supprimer"
-        supprButton[m].addEventListener('click', (event) => {
+        removeButton[m].addEventListener('click', (event) => {
             event.preventDefault();
-            let supprId = localItems[m].id;
-            let supprColor = localItems[m].color;
-            localItems = localItems.filter( el => el.id !== supprId || el.color !== supprColor );
+            let removeId = localItems[m].id;
+            let removeColor = localItems[m].color;
+            localItems = localItems.filter( el => el.id !== removeId || el.color !== removeColor );
             localStorage.setItem("itemToCart", JSON.stringify(localItems));
 
             // page reload après modif ou supression d'élements
@@ -150,7 +147,7 @@ function supprItem() {
     }
 }
 
-
+//FORM//
 
 addEventListener('change', () => {
 
@@ -249,11 +246,10 @@ addEventListener('change', () => {
 
     // Fonction récupération des données de la commande et leur envoi.
     function orderData() {
-        // Comportement du bouton de validation de commande "Commander !".
-        const commanderButt = document.getElementById('order');
+        // Const boutton "Commander !".
+        const orderInput = document.getElementById('order');
 
-        // Suivi du click sur le bouton "Commander !"
-        commanderButt.addEventListener('click', (event) => {
+        orderInput.addEventListener('click', (event) => {
             event.preventDefault();
 
             // Stockage des données du formulaires accompagnées des id produit.
@@ -289,7 +285,7 @@ addEventListener('change', () => {
             }
 
 
-            // Récupération de l'id de l'order par l'API.
+            // Récuperation de l'id de l'order
             let commandPost = {
                 method: 'POST',
                 body: JSON.stringify(commandeData),
@@ -322,7 +318,7 @@ addEventListener('change', () => {
 
 
 
-addChosenArticle();
-totalPriceProd();
+addArticle();
+totalPrice();
 modifPanier();
-supprItem();
+removeItem();

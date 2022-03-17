@@ -1,5 +1,5 @@
 // Affichage du numéro de commande sur la page
-function displayOrderId() {
+function displayOrder() {
     const orderId = JSON.parse(localStorage.getItem("orderId"));
   
     const displayId = document.querySelector("#orderId");
@@ -13,10 +13,10 @@ function displayOrderId() {
     }
   }
   
-  displayOrderId();
+  displayOrder();
   
   
-  // Suppression du Local Storage
+  // on vide le Local Storage
   function clearStorage() {
     localStorage.removeItem("orderId");
   }

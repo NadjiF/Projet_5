@@ -1,25 +1,38 @@
-//object request by Id
-async function fetchById() {
-  try {
-    const queryStringUrlId = window.location.search;
-    //recupération de la chaine de requête dans l'url
-    const urlParams = new URLSearchParams(queryStringUrlId);
-    const productId = urlParams.get("id"); //recuperer id
 
-    const response = await fetch(
-      `http://localhost:3000/api/products/${productId}`);
-    const product = await response.json();
-    return product;
-  } catch (error) {
-    console.log("error");
-  }
+main() 
+
+async function main() { 
+    const productId =  newProductId()               
+    const product = await fetchProduct(productId)
+    displayProduct(product)
 }
-//displayproduct
+
+
+
+
+function newProductId() { 
+    return new URL(location.href).searchParams.get('id')  //URL pour chaque produit
+}
+
+
+function fetchProduct(productId) { 
+    return fetch(`http://localhost:3000/api/products/${productId}`)
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(products) {
+            return products
+        })
+        .catch (function(err) {
+            alert(err)
+        })
+}
 fetchById().then(product => {
   product;
   displayProduct(product);
 });
 //afficher les caractérisqtiques du produit dans le dom
+//displayproduct
 function displayProduct(product) {
   
   let titlePage = document.querySelector("title");         //nom de la page selon le produit
@@ -48,9 +61,9 @@ function displayProduct(product) {
 
 ///////
 
-const sendToCart = document.getElementById('addToCart');
+const addCart = document.getElementById('addToCart');
 
-sendToCart.addEventListener('click',(event) => {
+addCart.addEventListener('click',(event) => {
   event.preventDefault();
 
 const itemCart = {
