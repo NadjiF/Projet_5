@@ -6,7 +6,7 @@ async function main() {
     const product = await fetchById(productId)
     displayProduct(product)
 }
-
+       
 
 
 

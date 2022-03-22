@@ -11,7 +11,7 @@ function displayOrder() {
     } else {
       errMsg.textContent = "Votre commande est vide !";
     }
-  }
+  } 
   
   displayOrder();
   
