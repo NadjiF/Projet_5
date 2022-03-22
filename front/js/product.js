@@ -3,7 +3,7 @@ main()
 
 async function main() { 
     const productId =  newProductId()               
-    const product = await fetchProduct(productId)
+    const product = await fetchById(productId)
     displayProduct(product)
 }
 
@@ -15,8 +15,8 @@ function newProductId() {
 }
 
 
-function fetchProduct(productId) { 
-    return fetch(`http://localhost:3000/api/products/${productId}`)
+ function fetchById(productId) { 
+      return   (`http://localhost:3000/api/products/${productId}`)
         .then(function(response) {
             return response.json()
         })
