@@ -3,7 +3,7 @@ main()
 
 async function main() { 
     const productId =  newProductId()               
-    const product = await fetchById(productId)
+    const product = await addProduct(productId)
     displayProduct(product)
 }
        
@@ -15,8 +15,8 @@ function newProductId() {
 }
 
 
- function fetchById(productId) { 
-      return   (`http://localhost:3000/api/products/${productId}`)
+ function addProduct(productId) { 
+      return fetch(`http://localhost:3000/api/products/${productId}`)
         .then(function(response) {
             return response.json()
         })
@@ -27,10 +27,10 @@ function newProductId() {
             alert(err)
         })
 }
-fetchById().then(product => {
-  product;
-  displayProduct(product);
-});
+//fetchById().then(product => {
+  //product;
+  //displayProduct(product);
+//});
 //afficher les caractérisqtiques du produit dans le dom
 //displayproduct
 function displayProduct(product) {
