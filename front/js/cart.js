@@ -75,29 +75,7 @@ function addArticle() {
     }
 }
 
-
-// Fonction calcule total prix
-
-function totalPrice() {
-    
-    const ptotalQuantity = document.getElementById('totalQuantity');
-    const ptotalPrice = document.getElementById('totalPrice');
-    let totalQuantitynum = 0;
-    let totalPricenum = 0;
-    
-    // Boucle ensemble des produits du panier.
-    for(k = 0; k < localItems.length; k++) {                                
-        totalQuantitynum += parseInt(localItems[k].quantity);
-        totalPricenum += localItems[k].price*localItems[k].quantity;
-    }
-     // Affichage total quantity + price
-    ptotalQuantity.textContent = totalQuantitynum;                         
-    ptotalPrice.textContent = totalPricenum;                              
-}
-
-
 // Fonction modification panier
-
 function modifPanier(){
 
     const modifQuantity = document.querySelectorAll('.itemQuantity');
@@ -120,7 +98,24 @@ function modifPanier(){
         });
     }
 }
+// Fonction calcule total prix
 
+function totalPrice() {
+    
+    const ptotalQuantity = document.getElementById('totalQuantity');
+    const ptotalPrice = document.getElementById('totalPrice');
+    let totalQuantitynum = 0;
+    let totalPricenum = 0;
+    
+    // Boucle ensemble des produits du panier.
+    for(k = 0; k < localItems.length; k++) {                                
+        totalQuantitynum += parseInt(localItems[k].quantity);
+        totalPricenum += localItems[k].price*localItems[k].quantity;
+    }
+     // Affichage total quantity + price
+    ptotalQuantity.textContent = totalQuantitynum;                         
+    ptotalPrice.textContent = totalPricenum;                              
+}
 
 // Fonction suppression d'élément du panier
 
@@ -157,6 +152,7 @@ addEventListener('change', () => {
         let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
 
         if (firstNameDat.match(firstReg)) {
+            textValid.innerHTML = '';
           
             return firstNameDat;
         } else {
@@ -174,6 +170,7 @@ addEventListener('change', () => {
         let lastReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
 
         if (lastNameDat.match(lastReg)) {
+            textValid.innerHTML = '';
            
             return lastNameDat;            
         } else {
@@ -192,6 +189,7 @@ addEventListener('change', () => {
         let adresseReg =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
 
         if (addressDat.match(adresseReg)) {
+            textValid.innerHTML = '';
             
             return addressDat;
         } else {
@@ -209,6 +207,7 @@ addEventListener('change', () => {
         let cityReg = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
 
         if (cityDat.match(cityReg)) {
+            textValid.innerHTML = '';
           
             return cityDat;
         } else {
@@ -226,6 +225,7 @@ addEventListener('change', () => {
         let mailReg = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
         if (emailDat.match(mailReg)) {
+            textValid.innerHTML = '';
          
             return emailDat;
         } else {
