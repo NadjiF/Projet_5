@@ -16,7 +16,7 @@ function newProductId() {
 
 
 function getProduct(productId) { 
-  return fetch(`http://localhost:3000/api/products/${productId}`)
+   fetch(`http://localhost:3000/api/products/${productId}`)
       .then(function(response) {
           return response.json()
       })
