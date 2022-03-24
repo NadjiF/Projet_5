@@ -1,41 +1,18 @@
 
-main() 
 
-async function main() { 
-    const productId =  newProductId()               
-    const product = await getProduct(productId)
-    displayProduct(product)
-}
-       
+let productId = window.location.search.replace("?id=", "");
+let product = [];
+// Je récupére mon produit depuis mon API
+const fetchApiProduct = async () => {
+  await fetch(`http://localhost:3000/api/products/${productId}`)
+    .then((res) => res.json())
+    .then((data) => (product = data));
+};
 
-
-
-function newProductId() { 
-    return new URL(location.href).searchParams.get('id')  //URL pour chaque produit
-}
-
-
-function getProduct(productId) { 
-   fetch(`http://localhost:3000/api/products/${productId}`)
-      .then(function(response) {
-          return response.json()
-      })
-      .then(function(products) {
-          return products
-      })
-      .catch (function(err) {
-          alert(err)
-      })
-}
-
-//afficher les caractérisqtiques du produit dans le dom
-//displayproduct
-function displayProduct(product) {
-  
-  let titlePage = document.querySelector("title");         //nom de la page selon le produit
-  titlePage.innerHTML = "Kanap -  " + product.name;
-  
-  
+// Je modifie les éléments de la page par rapport au produit séléctionné
+const productAddInfos = async () => {
+  await fetchApiProduct();
+ 
   let image = document.querySelector('.item__img img');  // ajout du html de manière dynamique
   image.src = product.imageUrl;
   image.alt = product.altText; 
@@ -55,8 +32,8 @@ function displayProduct(product) {
         inputColor.appendChild(optionColor);
     }
 
-
-///////
+};
+productAddInfos();
 
 const addCart = document.getElementById('addToCart');
 
@@ -65,7 +42,7 @@ addCart.addEventListener('click',(event) => {
 
 const itemCart = {
 
-  id: product.id,
+  id: product._id,
   name: product.name,
   quantity: quantity.value,
   color: document.getElementById('colors').value,
@@ -111,4 +88,3 @@ if(localItems) {
             alert ('Votre produit a bien été ajouté au panier.');
         } 
       });
-}
