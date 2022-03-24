@@ -3,15 +3,15 @@
 let productId = window.location.search.replace("?id=", "");
 let product = [];
 // Je récupére mon produit depuis mon API
-const fetchApiProduct = async () => {
+const fetchById = async () => {
   await fetch(`http://localhost:3000/api/products/${productId}`)
     .then((res) => res.json())
     .then((data) => (product = data));
 };
 
 // Je modifie les éléments de la page par rapport au produit séléctionné
-const productAddInfos = async () => {
-  await fetchApiProduct();
+const addArticle = async () => {
+  await fetchById();
  
   let image = document.querySelector('.item__img img');  // ajout du html de manière dynamique
   image.src = product.imageUrl;
@@ -33,7 +33,7 @@ const productAddInfos = async () => {
     }
 
 };
-productAddInfos();
+addArticle();
 
 const addCart = document.getElementById('addToCart');
 
