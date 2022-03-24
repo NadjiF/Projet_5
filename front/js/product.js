@@ -55,7 +55,7 @@ const itemCart = {
 
 let localItems = JSON.parse(localStorage.getItem('itemToCart'));
 
-console.log(localItems);
+//console.log(localItems);
 
 if(localItems) {
 
@@ -74,7 +74,7 @@ if(localItems) {
             }
             localStorage.setItem('itemToCart', JSON.stringify(localItems));
 
-            console.log(localItems);
+            //console.log(localItems);
             alert ('Votre produit a bien été ajouté au panier.');
           }else {
             localItems = [];
@@ -84,7 +84,7 @@ if(localItems) {
             localItems.push(itemCart);
             localStorage.setItem('itemToCart', JSON.stringify(localItems))
 
-            console.log(localItems);
+            //console.log(localItems);
             alert ('Votre produit a bien été ajouté au panier.');
         } 
       });
