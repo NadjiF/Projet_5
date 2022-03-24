@@ -3,7 +3,7 @@ main()
 
 async function main() { 
     const productId =  newProductId()               
-    const product = await addProduct(productId)
+    const product = await getProduct(productId)
     displayProduct(product)
 }
        
@@ -15,22 +15,19 @@ function newProductId() {
 }
 
 
- function addProduct(productId) { 
-      return fetch(`http://localhost:3000/api/products/${productId}`)
-        .then(function(response) {
-            return response.json()
-        })
-        .then(function(products) {
-            return products
-        })
-        .catch (function(err) {
-            alert(err)
-        })
+function getProduct(productId) { 
+  return fetch(`http://localhost:3000/api/products/${productId}`)
+      .then(function(response) {
+          return response.json()
+      })
+      .then(function(products) {
+          return products
+      })
+      .catch (function(err) {
+          alert(err)
+      })
 }
-//fetchById().then(product => {
-  //product;
-  //displayProduct(product);
-//});
+
 //afficher les caractérisqtiques du produit dans le dom
 //displayproduct
 function displayProduct(product) {
@@ -49,13 +46,13 @@ function displayProduct(product) {
 
   document.getElementById("description").textContent = product.description;
   
-  const selectElt = document.querySelector('select');      // ajout de la selection des couleurs
-    let optionElt;
+  const inputColor = document.querySelector('select');      // ajout de la selection des couleurs
+    let optionColor;
     for (color of product.colors) {
-        optionElt = document.createElement('option');
-        optionElt.setAttribute('value', color);
-        optionElt.textContent = color;
-        selectElt.appendChild(optionElt);
+      optionColor = document.createElement('option');
+      optionColor.setAttribute('value', color);
+      optionColor.textContent = color;
+        inputColor.appendChild(optionColor);
     }
 
 
