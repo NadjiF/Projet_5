@@ -138,52 +138,60 @@ function removeItem() {
 }
 
 //FORM//
-
+validForm = false;
 addEventListener('change', () => {
 
     function validFirstName() {
         let firstNameDat = document.querySelector('#firstName').value;
         let textValid = document.getElementById('firstNameErrorMsg');
         let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
+        
+        if (firstNameDat.length == 0) {
+            textValid.innerHTML = "Votre prénom n'est pas renseigné ";
+           
 
-        if (firstNameDat.match(firstReg)) {
+          }
+        else if (firstNameDat.match(firstReg)) {
             textValid.innerHTML = '';
           
             return firstNameDat;
         } else {
-            textValid.innerHTML = 'Veuillez entrer un prénom valide.';
+            textValid.innerHTML = 'Veuillez entrer un prénom valide';
             textValid.style.color = 'red';
         }
-        if (firstName == '') {
-            textValid.innerHTML = '';
-        }
+        
     }
 
     function validLastName() {
         let lastNameDat = document.querySelector('#lastName').value;
         let textValid = document.getElementById('lastNameErrorMsg');
         let lastReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
-
-        if (lastNameDat.match(lastReg)) {
+        
+        if (lastNameDat.length == 0) {
+            textValid.innerHTML = "Votre nom n'est pas renseigné ";
+            
+          }
+       else if (lastNameDat.match(lastReg)) {
             textValid.innerHTML = '';
            
             return lastNameDat;            
         } else {
-            textValid.innerHTML = 'Veuillez entrer un nom valide.';
+            textValid.innerHTML = 'Veuillez entrer un nom valide';
             textValid.style.color = 'red';
         }
 
-        if (lastNameDat == '') {
-            textValid.innerHTML = '';
-        }
     }
     
     function validAddress() {
         let addressDat = document.querySelector('#address').value;
         let textValid = document.getElementById('addressErrorMsg');
         let adresseReg =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
-
-        if (addressDat.match(adresseReg)) {
+        
+        if (adresseDat.length == 0) {
+            textValid.innerHTML = "L'adresse n'est pas renseignée";
+            
+          }
+       else if (addressDat.match(adresseReg)) {
             textValid.innerHTML = '';
             
             return addressDat;
@@ -191,9 +199,7 @@ addEventListener('change', () => {
             textValid.innerHTML = 'Veuillez entrer une adresse valide';
             textValid.style.color = 'red';
         }
-        if (addressDat == '') {
-            textValid.innerHTML = '';
-        }
+        
     }
 
     function validCity() {
@@ -201,7 +207,11 @@ addEventListener('change', () => {
         let textValid = document.getElementById('cityErrorMsg');
         let cityReg = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
 
-        if (cityDat.match(cityReg)) {
+        if (cityDat.length == 0) {
+            textValid.innerHTML = "La ville n'est pas renseigné ";
+            
+          }
+       else if (cityDat.match(cityReg)) {
             textValid.innerHTML = '';
           
             return cityDat;
@@ -209,9 +219,7 @@ addEventListener('change', () => {
             textValid.innerHTML = 'Veuillez entrer un nom de ville valide.';
             textValid.style.color = 'red';
         }
-        if (cityDat == '') {
-            textValid.innerHTML = '';
-        }
+        
     }
 
     function validEmail() {
@@ -219,6 +227,10 @@ addEventListener('change', () => {
         let textValid = document.getElementById('emailErrorMsg');
         let mailReg = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
+        if (validEmail.length == 0) {
+            textValid.innerHTML = "Le mail n'est pas renseigné ";
+            
+          }
         if (emailDat.match(mailReg)) {
             textValid.innerHTML = '';
          
@@ -227,9 +239,7 @@ addEventListener('change', () => {
             textValid.innerHTML = 'Veuillez entrer une adresse mail valide.';
             textValid.style.color = 'red';
         }
-        if (emailDat == '') {
-            textValid.innerHTML = '';
-        }
+        
     }
 
     validFirstName();
