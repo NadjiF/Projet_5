@@ -280,7 +280,8 @@ addEventListener('change', () => {
                 contact.city == undefined ||
                 contact.email == undefined 
             ) {
-                return false
+                return false 
+                  
             }
 
 
@@ -314,7 +315,7 @@ addEventListener('change', () => {
             })
             .catch((error) => {
                 console.log(`ERREUR requete POST : ${error}`);
-            });          
+            });    
         })
     }
     orderData();
