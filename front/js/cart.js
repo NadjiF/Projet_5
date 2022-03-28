@@ -7,6 +7,12 @@ let panier = JSON.parse(localStorage.getItem('itemToCart'));
 
 
 function addArticle() {
+    if (panier == null || panier == 0) {
+        document.getElementById("totalQuantity").innerText = 0;
+        document.getElementById("totalPrice").innerText = 0;
+        document.getElementById("cart__items").innerHTML +=
+            `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
+    }
 
     for(j = 0; j < panier.length; j++) {        
 
@@ -139,6 +145,7 @@ function removeItem() {
 
 //FORM//
 validForm = false;
+
 addEventListener('change', () => {
 
     function validFirstName() {
@@ -148,7 +155,7 @@ addEventListener('change', () => {
         
         if (firstNameDat.length == 0) {
             textValid.innerHTML = "Votre prénom n'est pas renseigné ";
-           
+            textValid.style.color = 'red';
 
           }
         else if (firstNameDat.match(firstReg)) {
@@ -169,7 +176,7 @@ addEventListener('change', () => {
         
         if (lastNameDat.length == 0) {
             textValid.innerHTML = "Votre nom n'est pas renseigné ";
-            
+            textValid.style.color = 'red';
           }
        else if (lastNameDat.match(lastReg)) {
             textValid.innerHTML = '';
@@ -187,9 +194,9 @@ addEventListener('change', () => {
         let textValid = document.getElementById('addressErrorMsg');
         let adresseReg =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
         
-        if (adresseDat.length == 0) {
+        if (addressDat.length == 0) {
             textValid.innerHTML = "L'adresse n'est pas renseignée";
-            
+            textValid.style.color = 'red';
           }
        else if (addressDat.match(adresseReg)) {
             textValid.innerHTML = '';
@@ -209,7 +216,7 @@ addEventListener('change', () => {
 
         if (cityDat.length == 0) {
             textValid.innerHTML = "La ville n'est pas renseigné ";
-            
+            textValid.style.color = 'red';
           }
        else if (cityDat.match(cityReg)) {
             textValid.innerHTML = '';
@@ -229,7 +236,7 @@ addEventListener('change', () => {
 
         if (validEmail.length == 0) {
             textValid.innerHTML = "Le mail n'est pas renseigné ";
-            
+            textValid.style.color = 'red';
           }
         if (emailDat.match(mailReg)) {
             textValid.innerHTML = '';
@@ -262,6 +269,7 @@ addEventListener('change', () => {
             for(let n = 0; n < panier.length; n++) {
                 produitId.push(panier[n].id);    
             }
+            
     
             // Objet contenant les données de la commande.
             let contact = {
