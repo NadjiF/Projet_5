@@ -1,7 +1,7 @@
 //création d'une nouvelle URL récupération de l'id selon le produit 
 
 let params = (new URL(document.location)).searchParams;
-let productId = params.get("id");
+let productId = params.get('id');
 let product = [];
 // récupération du produit depuis l'API
 const fetchById = async () => {
@@ -17,14 +17,14 @@ const addArticle = async () => {
   titlePage.innerHTML  = product.name;
   //image
   let image = document.querySelector('.item__img');  
-  image.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}"></img>`;
+  image.innerHTML = `<img src='${product.imageUrl}' alt='${product.altTxt}'></img>`;
    
   
-  document.getElementById("title").textContent = product.name; //nom du produit
+  document.getElementById('title').textContent = product.name; //nom du produit
 
-  document.getElementById("price").textContent = product.price; //prix total
+  document.getElementById('price').textContent = product.price; //prix total
 
-  document.getElementById("description").textContent = product.description; //description du produit
+  document.getElementById('description').textContent = product.description; //description du produit
   
   const inputColor = document.querySelector('select');      // ajout de la selection des couleurs (input)
     let optionColor;
@@ -64,8 +64,8 @@ const itemCart = {  //info de la fiche produit
     
       for(i = 0; i < localItems.length; i++) {                                                
           //message alerte couleur et quantité (indiquer la couleur et la quantité)
-        if (itemCart.color == null || itemCart.color === "" || itemCart.quantity == null || itemCart.quantity === "0") {
-          alert("SVP choisissez une couleur et la quantité");
+        if (itemCart.color == null || itemCart.color === '' || itemCart.quantity == null || itemCart.quantity === '0') {
+          alert('SVP choisissez une couleur et la quantité');
           return;
       }
          else if (localItems[i].id == itemCart.id && localItems[i].color == itemCart.color) {     

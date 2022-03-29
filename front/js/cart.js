@@ -9,9 +9,9 @@ let panier = JSON.parse(localStorage.getItem('itemToCart'));
 function addArticle() {
     //message : le panier est vide 
     if (panier == null || panier == 0) {
-        document.getElementById("totalQuantity").innerText = 0;
-        document.getElementById("totalPrice").innerText = 0;
-        document.getElementById("cart__items").innerHTML += `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
+        document.getElementById('totalQuantity').innerText = 0;
+        document.getElementById('totalPrice').innerText = 0;
+        document.getElementById('cart__items').innerHTML += `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
     }
 
     for(j = 0; j < panier.length; j++) {        
@@ -19,19 +19,19 @@ function addArticle() {
    
     const divCartItems = document.getElementById('cart__items');
     const divArticle = document.createElement('article');
-    const divImg = document.createElement("div");
-    const img = document.createElement("img");
-    const itemContent = document.createElement("div");
-    const contentDescription = document.createElement("div");
-    const nameProduct = document.createElement("h2");
-    const colorProduct = document.createElement("p");
-    const priceProduct = document.createElement("p");
-    const contentSettings = document.createElement("div");
-    const settingsQuantity = document.createElement("div");
-    const pQuantity = document.createElement("p");
-    const inputQuant = document.createElement("input");
-    const settingDelete = document.createElement("div");
-    const deleteItem = document.createElement("p")
+    const divImg = document.createElement('div');
+    const img = document.createElement('img');
+    const itemContent = document.createElement('div');
+    const contentDescription = document.createElement('div');
+    const nameProduct = document.createElement('h2');
+    const colorProduct = document.createElement('p');
+    const priceProduct = document.createElement('p');
+    const contentSettings = document.createElement('div');
+    const settingsQuantity = document.createElement('div');
+    const pQuantity = document.createElement('p');
+    const inputQuant = document.createElement('input');
+    const settingDelete = document.createElement('div');
+    const deleteItem = document.createElement('p')
 
 
        // ajout des attributs et classes des balises (HTML CART)
@@ -92,7 +92,7 @@ function modifPanier(){
             let modifValue =  parseInt(modifQuantity[l].value);
             let modif = panier.find(el => el.modifValue != modifItem);
             panier[l].quantity = modifValue;
-            localStorage.setItem("itemToCart", JSON.stringify(panier));
+            localStorage.setItem('itemToCart', JSON.stringify(panier));
 
             // page reload après modif ou supression d'élements
             window.location.reload();
@@ -134,7 +134,7 @@ function removeItem() {
             let removeId = panier[m].id;
             let removeColor = panier[m].color;
             panier = panier.filter( el => el.id !== removeId || el.color !== removeColor );
-            localStorage.setItem("itemToCart", JSON.stringify(panier));
+            localStorage.setItem('itemToCart', JSON.stringify(panier));
 
             // page reload après modif ou supression d'élements
             window.location.reload();
@@ -154,7 +154,7 @@ addEventListener('change', () => {
         let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
         
         if (firstNameDat.length == 0) {
-            textValid.innerHTML = "Votre prénom n'est pas renseigné ";
+            textValid.innerHTML = "Votre prénom n'est pas renseigné" ;
             textValid.style.color = 'red';
 
           }
