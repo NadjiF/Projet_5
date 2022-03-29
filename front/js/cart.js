@@ -1,17 +1,17 @@
 
-//récupération des élements panier & Fonction affichage des caractéristiques de l'article (produit)
+//récupération des élements panier  
 
 let panier = JSON.parse(localStorage.getItem('itemToCart'));
 
 
-
+//function qui affiche les produits sélectionnés (description : HTML Dynamique)
 
 function addArticle() {
+    //message : le panier est vide 
     if (panier == null || panier == 0) {
         document.getElementById("totalQuantity").innerText = 0;
         document.getElementById("totalPrice").innerText = 0;
-        document.getElementById("cart__items").innerHTML +=
-            `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
+        document.getElementById("cart__items").innerHTML += `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
     }
 
     for(j = 0; j < panier.length; j++) {        
@@ -149,7 +149,7 @@ validForm = false;
 addEventListener('change', () => {
 
     function validFirstName() {
-        let firstNameDat = document.querySelector('#firstName').value;
+        let firstNameDat = document.querySelector('#firstName').value;      //function Form (prénom, nom, adresse, ville, mail)
         let textValid = document.getElementById('firstNameErrorMsg');
         let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
         

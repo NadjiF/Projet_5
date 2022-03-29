@@ -1,7 +1,8 @@
-//récupération de l'id selon le produit 
+//création d'une nouvelle URL récupération de l'id selon le produit 
 
 let params = (new URL(document.location)).searchParams;
 let productId = params.get("id");
+let product = [];
 // récupération du produit depuis l'API
 const fetchById = async () => {
   await fetch(`http://localhost:3000/api/products/${productId}`)
@@ -9,14 +10,15 @@ const fetchById = async () => {
     .then((data) => (product = data));
 };
 
-
+// ajout du html de manière dynamique
 const addArticle = async () => {
   await fetchById();
   let titlePage =document.querySelector('title'); //Titre de la page en fonction du produit (nom du produit)
   titlePage.innerHTML  = product.name;
-  let image = document.querySelector('.item__img img');  // ajout du html de manière dynamique
-  image.src = product.imageUrl;                          //image
-  image.alt = product.altText; 
+  //image
+  let image = document.querySelector('.item__img');  
+  image.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}"></img>`;
+   
   
   document.getElementById("title").textContent = product.name; //nom du produit
 
@@ -53,7 +55,7 @@ const itemCart = {  //info de la fiche produit
   
 }
 
-
+//Ajout des élements au panier
     let localItems = JSON.parse(localStorage.getItem('itemToCart'));
       
     if(localItems) {
@@ -61,7 +63,7 @@ const itemCart = {  //info de la fiche produit
       let newQuantity = parseInt(itemCart.quantity);
     
       for(i = 0; i < localItems.length; i++) {                                                
-          //message alerte couleur et quantité
+          //message alerte couleur et quantité (indiquer la couleur et la quantité)
         if (itemCart.color == null || itemCart.color === "" || itemCart.quantity == null || itemCart.quantity === "0") {
           alert("SVP choisissez une couleur et la quantité");
           return;
