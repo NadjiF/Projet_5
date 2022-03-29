@@ -261,7 +261,7 @@ addEventListener('change', () => {
             ) {
                 return false     
             }
-
+        //Récupération des information utilisateurs et des Id à l'APi
             const commandeData = {
                 contact,
                 products: produitId,
@@ -277,7 +277,7 @@ addEventListener('change', () => {
                     'Content-Type': 'application/json',
                 },
             }
-            // Envoi des données de la commande à l'API.
+            // Envoi des données au serveur.
             fetch(`http://localhost:3000/api/products/order`, commandPost)
             .then(function(response) {
                 return response.json();
