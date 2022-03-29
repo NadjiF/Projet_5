@@ -9,7 +9,7 @@ let panier = JSON.parse(localStorage.getItem('itemToCart'));
 function addArticle() {
     //message : le panier est vide 
     if (panier == null || panier == 0) {
-        document.getElementById('totalQuantity').innerText = 0;
+        document.getElementById('totalQuantity').innerText = 0;  //panier vide si le prix total et la quantité = 0
         document.getElementById('totalPrice').innerText = 0;
         document.getElementById('cart__items').innerHTML += 
         `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
@@ -135,65 +135,65 @@ addEventListener('change', () => {
 
     function validFirstName() {
         let firstNameDat = document.querySelector('#firstName').value;      //function Form (prénom, nom, adresse, ville, mail)
-        let textValid = document.getElementById('firstNameErrorMsg');
+        let textValid = document.getElementById('firstNameErrorMsg');       //function prénom
         let firstReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
         
         if (firstNameDat.length == 0) {
-            textValid.innerHTML = "Votre prénom n'est pas renseigné" ;
+            textValid.innerHTML = "Votre prénom n'est pas renseigné" ;     //message erreur
             textValid.style.color = 'red';
           }
         else if (firstNameDat.match(firstReg)) {
             textValid.innerHTML = '';
             return firstNameDat;
         } else {
-            textValid.innerHTML = 'Veuillez entrer un prénom valide';
+            textValid.innerHTML = 'Veuillez entrer un prénom valide';    //message erreur
             textValid.style.color = 'red';
         }
     }
 
-    function validLastName() {
+    function validLastName() {                                             //function nom
         let lastNameDat = document.querySelector('#lastName').value;
         let textValid = document.getElementById('lastNameErrorMsg');
         let lastReg = new RegExp('^[A-Za-z\é\è\ê\ç\-]+$', 'g');
         
         if (lastNameDat.length == 0) {
-            textValid.innerHTML = "Votre nom n'est pas renseigné ";
+            textValid.innerHTML = "Votre nom n'est pas renseigné ";       //message erreur
             textValid.style.color = 'red';
           }
        else if (lastNameDat.match(lastReg)) {
             textValid.innerHTML = '';
             return lastNameDat;            
         } else {
-            textValid.innerHTML = 'Veuillez entrer un nom valide';
+            textValid.innerHTML = 'Veuillez entrer un nom valide';       //message erreur
             textValid.style.color = 'red';
         }
     }
     
-    function validAddress() {
+    function validAddress() {                                               //function adresse
         let addressDat = document.querySelector('#address').value;
         let textValid = document.getElementById('addressErrorMsg');
         let adresseReg =  new RegExp('^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+', 'g');
         
         if (addressDat.length == 0) {
-            textValid.innerHTML = "L'adresse n'est pas renseignée";
+            textValid.innerHTML = "L'adresse n'est pas renseignée";        //message erreur
             textValid.style.color = 'red';
           }
        else if (addressDat.match(adresseReg)) {
             textValid.innerHTML = '';
             return addressDat;
         } else {
-            textValid.innerHTML = 'Veuillez entrer une adresse valide';
+            textValid.innerHTML = 'Veuillez entrer une adresse valide';    //message erreur
             textValid.style.color = 'red';
         } 
     }
-
-    function validCity() {
+               
+    function validCity() {                                                  //function ville
         let cityDat = document.querySelector('#city').value;
         let textValid = document.getElementById('cityErrorMsg');
         let cityReg = new RegExp('^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$', 'g');
 
         if (cityDat.length == 0) {
-            textValid.innerHTML = "La ville n'est pas renseigné ";
+            textValid.innerHTML = "La ville n'est pas renseigné ";        //message erreur
             textValid.style.color = 'red';
           }
        else if (cityDat.match(cityReg)) {
@@ -201,18 +201,18 @@ addEventListener('change', () => {
           
             return cityDat;
         } else {
-            textValid.innerHTML = 'Veuillez entrer un nom de ville valide.';
+            textValid.innerHTML = 'Veuillez entrer un nom de ville valide.';   //message erreur
             textValid.style.color = 'red';
         }
     }
 
-    function validEmail() {
+    function validEmail() {                                                          //function mail
         let emailDat = document.querySelector('#email').value;
         let textValid = document.getElementById('emailErrorMsg');
         let mailReg = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
         if (validEmail.length == 0) {
-            textValid.innerHTML = "Le mail n'est pas renseigné ";
+            textValid.innerHTML = "Le mail n'est pas renseigné ";           //message erreur
             textValid.style.color = 'red';
           }
         if (emailDat.match(mailReg)) {
@@ -220,7 +220,7 @@ addEventListener('change', () => {
          
             return emailDat;
         } else {
-            textValid.innerHTML = 'Veuillez entrer une adresse mail valide.';
+            textValid.innerHTML = 'Veuillez entrer une adresse mail valide.';    //message erreur
             textValid.style.color = 'red';
         }
     }
@@ -251,6 +251,7 @@ addEventListener('change', () => {
                 city: validCity(),
                 email: validEmail(),  
             }
+            
             if (
                 contact.firstName == undefined ||
                 contact.lastName == undefined ||
