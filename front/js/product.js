@@ -13,17 +13,15 @@ const fetchById = async () => {
 // ajout du html de manière dynamique
 const addArticle = async () => {
   await fetchById();
-  let titlePage =document.querySelector('title'); //Titre de la page en fonction du produit (nom du produit)
+  //Titre de la page en fonction du produit (nom du produit)
+  let titlePage =document.querySelector('title'); 
   titlePage.innerHTML  = product.name;
   //image
   let image = document.querySelector('.item__img');  
   image.innerHTML = `<img src='${product.imageUrl}' alt='${product.altTxt}'></img>`;
    
-  
   document.getElementById('title').textContent = product.name; //nom du produit
-
   document.getElementById('price').textContent = product.price; //prix total
-
   document.getElementById('description').textContent = product.description; //description du produit
   
   const inputColor = document.querySelector('select');      // ajout de la selection des couleurs (input)
@@ -34,17 +32,16 @@ const addArticle = async () => {
       optionColor.textContent = color;
         inputColor.appendChild(optionColor);
     }
-
 };
 addArticle();
 
-const addCart = document.getElementById('addToCart'); //input "ajouter aux panier"
-
+//input "ajouter aux panier"
+const addCart = document.getElementById('addToCart');
+//ecoute du click de l'input 
 addCart.addEventListener('click',(event) => {
   event.preventDefault();
-
-const itemCart = {  //info de la fiche produit
-
+//info de la fiche produit
+const itemCart = {  
   id: product._id,
   name: product.name,
   quantity: quantity.value,
@@ -67,13 +64,14 @@ const itemCart = {  //info de la fiche produit
         if (itemCart.color == null || itemCart.color === '' || itemCart.quantity == null || itemCart.quantity === '0') {
           alert('SVP choisissez une couleur et la quantité');
           return;
-      }
-         else if (localItems[i].id == itemCart.id && localItems[i].color == itemCart.color) {     
+
+        } else if (localItems[i].id == itemCart.id && localItems[i].color == itemCart.color) {  
               newQuantity += parseInt(localItems[i].quantity);                                                                
               localItems.splice(i,1);                                                                                         
           }
        
       }
+     
       
       if (newQuantity > 0) {
         localItems.push(itemCart);

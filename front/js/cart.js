@@ -11,7 +11,8 @@ function addArticle() {
     if (panier == null || panier == 0) {
         document.getElementById('totalQuantity').innerText = 0;
         document.getElementById('totalPrice').innerText = 0;
-        document.getElementById('cart__items').innerHTML += `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
+        document.getElementById('cart__items').innerHTML += 
+        `<h2 style="text-align:center; margin-bottom:80px;">Vous n'avez aucun article dans votre panier</h2>`
     }
 
     for(j = 0; j < panier.length; j++) {        
@@ -53,9 +54,7 @@ function addArticle() {
     deleteItem.classList.add('deleteItem');
 
 
-    //Données stockées dans les balises(statiques et dynamiques)
-        //Ajout de l'affichage du prix selon le produit(type)
-
+    //Données stockées dans les balises(statiques et dynamiques)       
     divArticle.appendChild(divImg) + divArticle.appendChild(itemContent);
     divImg.appendChild(img);
     divImg.querySelector('img').src = panier[j].img;
@@ -70,19 +69,13 @@ function addArticle() {
     contentDescription.querySelector('h2').textContent = panier[j].name + " - " + panier[j].color;
     contentDescription.querySelector('p').textContent = panier[j].price + '€';
     deleteItem.textContent = 'Supprimer';
-    
     divCartItems.appendChild(divArticle);
-
     }
 }
 
 // Fonction modification panier
 function modifPanier(){
-
     const modifQuantity = document.querySelectorAll('.itemQuantity');
-
-    
-
     // Boucle modif d'element
     for(let l = 0; l < modifQuantity.length; l++) {
 
@@ -93,7 +86,6 @@ function modifPanier(){
             let modif = panier.find(el => el.modifValue != modifItem);
             panier[l].quantity = modifValue;
             localStorage.setItem('itemToCart', JSON.stringify(panier));
-
             // page reload après modif ou supression d'élements
             window.location.reload();
         });
@@ -119,15 +111,10 @@ function totalPrice() {
 }
 
 // Fonction suppression d'élément du panier
-
 function removeItem() {
-
-   
     const removeButton = document.querySelectorAll('.deleteItem');
-    
     // Boucle pour l'application à tous les élements contenus dans le panier
     for(let m = 0; m < removeButton.length; m++) {
-
         // ajour event click au boutton "supprimer"
         removeButton[m].addEventListener('click', (event) => {
             event.preventDefault();
@@ -138,14 +125,12 @@ function removeItem() {
 
             // page reload après modif ou supression d'élements
             window.location.reload();
-
         });
     }
 }
 
 //FORM//
 validForm = false;
-
 addEventListener('change', () => {
 
     function validFirstName() {
@@ -156,17 +141,14 @@ addEventListener('change', () => {
         if (firstNameDat.length == 0) {
             textValid.innerHTML = "Votre prénom n'est pas renseigné" ;
             textValid.style.color = 'red';
-
           }
         else if (firstNameDat.match(firstReg)) {
             textValid.innerHTML = '';
-          
             return firstNameDat;
         } else {
             textValid.innerHTML = 'Veuillez entrer un prénom valide';
             textValid.style.color = 'red';
         }
-        
     }
 
     function validLastName() {
@@ -180,13 +162,11 @@ addEventListener('change', () => {
           }
        else if (lastNameDat.match(lastReg)) {
             textValid.innerHTML = '';
-           
             return lastNameDat;            
         } else {
             textValid.innerHTML = 'Veuillez entrer un nom valide';
             textValid.style.color = 'red';
         }
-
     }
     
     function validAddress() {
@@ -200,13 +180,11 @@ addEventListener('change', () => {
           }
        else if (addressDat.match(adresseReg)) {
             textValid.innerHTML = '';
-            
             return addressDat;
         } else {
             textValid.innerHTML = 'Veuillez entrer une adresse valide';
             textValid.style.color = 'red';
-        }
-        
+        } 
     }
 
     function validCity() {
@@ -226,7 +204,6 @@ addEventListener('change', () => {
             textValid.innerHTML = 'Veuillez entrer un nom de ville valide.';
             textValid.style.color = 'red';
         }
-        
     }
 
     function validEmail() {
@@ -246,7 +223,6 @@ addEventListener('change', () => {
             textValid.innerHTML = 'Veuillez entrer une adresse mail valide.';
             textValid.style.color = 'red';
         }
-        
     }
 
     validFirstName();
@@ -260,17 +236,13 @@ addEventListener('change', () => {
     function orderData() {
         // Const boutton "Commander !".
         const orderInput = document.getElementById('order');
-
         orderInput.addEventListener('click', (event) => {
             event.preventDefault();
-
             // Stockage des données du formulaires accompagnées des id produit.
             let produitId = [];
             for(let n = 0; n < panier.length; n++) {
                 produitId.push(panier[n].id);    
             }
-            
-    
             // Objet contenant les données de la commande.
             let contact = {
                 firstName: validFirstName(),
@@ -279,8 +251,6 @@ addEventListener('change', () => {
                 city: validCity(),
                 email: validEmail(),  
             }
-
-
             if (
                 contact.firstName == undefined ||
                 contact.lastName == undefined ||
@@ -288,10 +258,8 @@ addEventListener('change', () => {
                 contact.city == undefined ||
                 contact.email == undefined 
             ) {
-                return false 
-                  
+                return false     
             }
-
 
             const commandeData = {
                 contact,
@@ -308,15 +276,11 @@ addEventListener('change', () => {
                     'Content-Type': 'application/json',
                 },
             }
-    
-
             // Envoi des données de la commande à l'API.
             fetch(`http://localhost:3000/api/products/order`, commandPost)
-    
             .then(function(response) {
                 return response.json();
             })
-
             .then((dataList) => {
                 localStorage.setItem('orderId', JSON.stringify(dataList.orderId));
                 document.location.href = `confirmation.html?id=${dataList.orderId}`;
