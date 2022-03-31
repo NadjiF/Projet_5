@@ -43,12 +43,12 @@ addCart.addEventListener('click',(event) => {
 //info de la fiche produit
 const itemCart = {  
   id: product._id,
-  name: product.name,
   quantity: quantity.value,
   color: document.getElementById('colors').value,
-  price: product.price, 
+  name: product.name,
   img: product.imageUrl,
   alt: product.altTxt,
+  //price: "",
   
 }
 
